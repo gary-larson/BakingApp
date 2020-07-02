@@ -22,3 +22,23 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    roomVersion = '2.2.5'
+    archLifecycleVersion = '2.2.0'
+    androidxRecyclerviewVersion = '1.1.0'
+    androidxRecyclerviewSelectionVersion = '1.1.0-rc01'
+    picassoVersion = '2.71828'
+}
+
+//ext {
+//    roomVersion = '2.2.5'
+//    preferenceVersion = '1.1.1'
+//    legacySupportV4Version = '1.0.0'
+//    androidxRecyclerviewVersion = '1.1.0'
+//    androidxRecyclerviewSelectionVersion = '1.1.0-rc01'
+//    picassoVersion = '2.71828'
+//    archLifecycleversion = '2.2.0'
+//    coreTestingVersion = '2.1.0'
+//    materialVersion = '1.1.0'
+//}

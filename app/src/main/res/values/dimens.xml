@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="baking_text_size">24sp</dimen>
+    <dimen name="progress_bar_height_and_width">42dp</dimen>
+    <dimen name="baking_recipe_image_size">56dp</dimen>
+</resources>

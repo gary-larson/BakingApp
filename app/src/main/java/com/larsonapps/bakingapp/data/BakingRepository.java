@@ -2,6 +2,9 @@ package com.larsonapps.bakingapp.data;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.larsonapps.bakingapp.R;
 import com.larsonapps.bakingapp.utilities.BakingExecutor;
 import com.larsonapps.bakingapp.utilities.BakingJsonUtilities;
@@ -25,13 +28,14 @@ public class BakingRepository {
     private final BakingExecutor executor;
     private final Application mApplication;
     private final String mErrorMessage;
-    private BakingResult<List<BakingRecipe>> mBakingResult;
+    private MutableLiveData<BakingResult<List<BakingRecipe>>> mBakingResult;
 
     public BakingRepository (Application application) {
         // Initialize variables
         mApplication = application;
         mErrorMessage = mApplication.getString(R.string.error_message);
         executor = new BakingExecutor();
+        mBakingResult = new MutableLiveData<>();
     }
 
     /**
@@ -72,13 +76,8 @@ public class BakingRepository {
         });
     }
 
-    public BakingResult<List<BakingRecipe>> getBakingRecipes () {
-        retrieveBakingList(bakingResult -> {
-//            if (bakingResult instanceof BakingResult.Success) {
-//                mBakingRecipe = ((BakingResult.Success<List<BakingRecipe>>) bakingResult).data;
-//            }
-
-        });
+    public LiveData<BakingResult<List<BakingRecipe>>> getBakingRecipes () {
+        retrieveBakingList(bakingResult -> mBakingResult.postValue(bakingResult));
         return mBakingResult;
     }
 }
