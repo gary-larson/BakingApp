@@ -29,6 +29,7 @@ ext {
     androidxRecyclerviewVersion = '1.1.0'
     androidxRecyclerviewSelectionVersion = '1.1.0-rc01'
     picassoVersion = '2.71828'
+    fragment_version = "1.2.5"
 }
 
 //ext {

@@ -2,5 +2,9 @@
 <resources>
     <dimen name="baking_text_size">24sp</dimen>
     <dimen name="progress_bar_height_and_width">42dp</dimen>
-    <dimen name="baking_recipe_image_size">56dp</dimen>
+    <dimen name="baking_recipe_image_size">112dp</dimen>
+    <dimen name="baking_recipe_text_size">40sp</dimen>
+    <dimen name="baking_recipe_list_item_horizontal_margin">16dp</dimen>
+    <dimen name="baking_recipe_list_item_vertical_margin">8dp</dimen>
+    <dimen name="baking_recipe_list_item_padding">8dp</dimen>
 </resources>

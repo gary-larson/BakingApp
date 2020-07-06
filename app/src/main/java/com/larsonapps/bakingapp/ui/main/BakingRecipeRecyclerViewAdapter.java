@@ -55,7 +55,8 @@ public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<Baking
         binding.tvRecipeName.setText(bakingRecipes.get(position).getName());
 
         // TODO change to string resource
-        String temp = String.format("%d", bakingRecipes.get(position).getServings());
+        String temp = context.getString(R.string.baking_recipe_serving,
+                bakingRecipes.get(position).getServings());
         binding.tvRecipeServings.setText(temp);
 
         // set up on click listener

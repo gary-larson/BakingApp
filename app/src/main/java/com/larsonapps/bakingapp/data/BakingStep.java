@@ -1,23 +1,58 @@
 package com.larsonapps.bakingapp.data;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+/**
+ * Class to deal with a baking step and define the steps table for room
+ */
+@Entity(tableName = "steps", indices = {@Index("recipe_key")},
+        foreignKeys = @ForeignKey(entity = BakingRecipeEntity.class,
+        parentColumns = "recipe_id",
+        childColumns = "recipe_key",
+        onDelete = ForeignKey.NO_ACTION))
 public class BakingStep {
     // Declare Variables
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "step_key")
+    private int mStepKey;
+
+    @ColumnInfo(name = "recipe_key")
+    private int mRecipeKey;
+
+    @ColumnInfo(name = "step_id")
     private int mId;
+
+    @ColumnInfo(name = "short_description")
     private String mShortDescription;
+
+    @ColumnInfo(name = "description")
     private String mDescription;
+
+    @ColumnInfo(name = "video_url")
     private String mVideoURL;
+
+    @ColumnInfo(name = "thumbnail_url")
     private String mThumbnailURL;
 
     /**
      * Constructor for all variables
+     * @param stepKey to set
+     * @param recipeKey to set
      * @param id to set
      * @param shortDescription to set
      * @param description to set
      * @param videoURL to set
      * @param thumbnailURL to set
      */
-    public BakingStep(int id, String shortDescription, String description, String videoURL,
-                      String thumbnailURL) {
+    public BakingStep(int stepKey, int recipeKey, int id, String shortDescription,
+                      String description, String videoURL, String thumbnailURL) {
+        mStepKey = stepKey;
+        mRecipeKey = recipeKey;
         mId = id;
         mShortDescription = shortDescription;
         mDescription = description;
@@ -28,7 +63,40 @@ public class BakingStep {
     /**
      * Default constructor
      */
+    @Ignore
     public BakingStep() {}
+
+    /**
+     * Getter for step key
+     * @return step key
+     */
+    public int getStepKey() {
+        return mStepKey;
+    }
+
+    /**
+     * Setter for step key
+     * @param stepKey to set
+     */
+    public void setStepKey(int stepKey) {
+        this.mStepKey = stepKey;
+    }
+
+    /**
+     * Getter for recipe key
+     * @return recipe key
+     */
+    public int getRecipeKey() {
+        return mRecipeKey;
+    }
+
+    /**
+     * Setter for recipe key
+     * @param recipeKey to set
+     */
+    public void setRecipeKey(int recipeKey) {
+        this.mRecipeKey = recipeKey;
+    }
 
     /**
      * Getter for step id

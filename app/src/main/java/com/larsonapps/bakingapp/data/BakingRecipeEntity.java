@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * Class to define the baking_recipe table for room
+ */
 @Entity(tableName = "backing_recipe")
 public class BakingRecipeEntity {
     // Declare Variables

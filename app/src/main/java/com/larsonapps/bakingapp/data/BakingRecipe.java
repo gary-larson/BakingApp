@@ -7,6 +7,9 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
+/**
+ * Class to deal with a baking recipe
+ */
 public class BakingRecipe {
     // Declare Variables
     private int mId;

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.larsonapps.bakingapp.data.BakingRecipe;
 import com.larsonapps.bakingapp.data.BakingRepository;
+import com.larsonapps.bakingapp.utilities.BakingIdlingResource;
 import com.larsonapps.bakingapp.utilities.BakingResult;
 
 import java.util.List;
@@ -29,9 +30,10 @@ public class BakingViewModel extends AndroidViewModel {
         mBakingRepository = new BakingRepository(mApplication);
     }
 
-    public LiveData<BakingResult<List<BakingRecipe>>> getBakingRecipes () {
+    public LiveData<BakingResult<List<BakingRecipe>>> getBakingRecipes (
+            BakingIdlingResource bakingIdlingResource) {
         if (mBakingRecipes == null) {
-            mBakingRecipes = mBakingRepository.getBakingRecipes();
+            mBakingRecipes = mBakingRepository.getBakingRecipes(bakingIdlingResource);
         }
         return mBakingRecipes;
     }

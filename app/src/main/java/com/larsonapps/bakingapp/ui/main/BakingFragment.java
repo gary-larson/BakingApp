@@ -1,5 +1,6 @@
 package com.larsonapps.bakingapp.ui.main;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.test.espresso.IdlingResource;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.larsonapps.bakingapp.BakingActivity;
 import com.larsonapps.bakingapp.R;
 import com.larsonapps.bakingapp.data.BakingRecipe;
 import com.larsonapps.bakingapp.databinding.BakingFragmentBinding;
+import com.larsonapps.bakingapp.utilities.BakingIdlingResource;
 import com.larsonapps.bakingapp.utilities.BakingResult;
 
 import java.util.List;
@@ -53,7 +56,8 @@ public class BakingFragment extends Fragment {
         }
         binding.rvRecipeList.setHasFixedSize(true);
         binding.rvRecipeList.setAdapter(bakingAdapter);
-        mBakingViewModel.getBakingRecipes().observe(getViewLifecycleOwner(),
+        BakingIdlingResource mIdlingResource = (BakingIdlingResource) mBakingActivity.getIdlingResource();
+        mBakingViewModel.getBakingRecipes(mIdlingResource).observe(getViewLifecycleOwner(),
                 newBakingRecipes -> {
                     //
                     if (newBakingRecipes instanceof BakingResult.Error) {
@@ -69,6 +73,9 @@ public class BakingFragment extends Fragment {
                             showErrorMessage();
                         }
                     }
+                    if (mIdlingResource != null) {
+                        mIdlingResource.setIdleState(true);
+                    }
                 });
         return mView;
     }
@@ -76,7 +83,6 @@ public class BakingFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     /**

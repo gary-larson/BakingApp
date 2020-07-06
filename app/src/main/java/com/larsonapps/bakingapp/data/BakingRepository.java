@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.larsonapps.bakingapp.R;
 import com.larsonapps.bakingapp.utilities.BakingExecutor;
+import com.larsonapps.bakingapp.utilities.BakingIdlingResource;
 import com.larsonapps.bakingapp.utilities.BakingJsonUtilities;
 import com.larsonapps.bakingapp.utilities.BakingNetworkUtilities;
 import com.larsonapps.bakingapp.utilities.BakingResult;
@@ -51,15 +52,15 @@ public class BakingRepository {
 
             try {
                 // attempt to get baking information
-                String jsonMovieResponse = BakingNetworkUtilities
+                String jsonBakingRecipeResponse = BakingNetworkUtilities
                         .getResponseFromHttpUrl(bakingRequestUrl);
                 // if null cancel task (Unknown error)
-                if (jsonMovieResponse == null) {
+                if (jsonBakingRecipeResponse == null) {
                     BakingResult<List<BakingRecipe>> errorResult = new BakingResult.Error<>(mErrorMessage);
                     callback.onComplete(errorResult);
                 }
                 // return Json decoded movie Information
-                List<BakingRecipe> bakingRecipes = BakingJsonUtilities.getBakingRecipes(jsonMovieResponse);
+                List<BakingRecipe> bakingRecipes = BakingJsonUtilities.getBakingRecipes(jsonBakingRecipeResponse);
                 BakingResult<List<BakingRecipe>> bakingResult;
                 if (bakingRecipes == null) {
                     bakingResult = new BakingResult.Error<>(mErrorMessage);
@@ -76,7 +77,11 @@ public class BakingRepository {
         });
     }
 
-    public LiveData<BakingResult<List<BakingRecipe>>> getBakingRecipes () {
+    public LiveData<BakingResult<List<BakingRecipe>>> getBakingRecipes (
+            BakingIdlingResource bakingIdlingResource) {
+        if (bakingIdlingResource != null) {
+            bakingIdlingResource.setIdleState(false);
+        }
         retrieveBakingList(bakingResult -> mBakingResult.postValue(bakingResult));
         return mBakingResult;
     }

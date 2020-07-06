@@ -12,8 +12,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {BakingRecipeEntity.class}, version = 1)
+@Database(entities = {BakingRecipeEntity.class, BakingIngredient.class, BakingStep.class},
+        version = 1)
 public abstract class BakingRoomDatabase extends RoomDatabase {
+    // TODO create daos
+
     private static volatile BakingRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor =
