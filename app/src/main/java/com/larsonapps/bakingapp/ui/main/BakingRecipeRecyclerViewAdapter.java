@@ -44,29 +44,32 @@ public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<Baking
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Declare a variable of the movie results
         final List<BakingRecipe> bakingRecipes = mBakingRecipes;
-        if (bakingRecipes.get(position).getImage() != null &&
-                !bakingRecipes.get(position).getImage().equals("")) {
-            Picasso.get().load(bakingRecipes.get(position).getImage())
-                    // TODO create error drawable .error(R.mipmap.error)
-                    .noPlaceholder()
-                    .centerInside()
-                    .into(holder.mImageView);
-        }
-        binding.tvRecipeName.setText(bakingRecipes.get(position).getName());
-
-        // TODO change to string resource
-        String temp = context.getString(R.string.baking_recipe_serving,
-                bakingRecipes.get(position).getServings());
-        binding.tvRecipeServings.setText(temp);
-
-        // set up on click listener
-        holder.mView.setOnClickListener(v -> {
-            if (null != mListener) {
-                // Notify the active callbacks interface (the activity, if the
-                // fragment is attached to one) that an item has been selected.
-                mListener.onListFragmentInteraction(holder.mBakingRecipe);
+        if (mBakingRecipes.get(position) != null) {
+            holder.mBakingRecipe = mBakingRecipes.get(position);
+            if (bakingRecipes.get(position).getImage() != null &&
+                    !bakingRecipes.get(position).getImage().equals("")) {
+                Picasso.get().load(bakingRecipes.get(position).getImage())
+                        // TODO create error drawable .error(R.mipmap.error)
+                        .noPlaceholder()
+                        .centerInside()
+                        .into(holder.mImageView);
             }
-        });
+            binding.tvRecipeName.setText(bakingRecipes.get(position).getName());
+
+            // Display servings
+            String temp = context.getString(R.string.baking_recipe_serving,
+                    bakingRecipes.get(position).getServings());
+            binding.tvRecipeServings.setText(temp);
+
+            // set up on click listener
+            holder.mView.setOnClickListener(v -> {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onListFragmentInteraction(holder.mBakingRecipe);
+                }
+            });
+        }
     }
 
     @Override

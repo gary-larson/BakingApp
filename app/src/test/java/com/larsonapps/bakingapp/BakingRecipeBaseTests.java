@@ -2,7 +2,6 @@ package com.larsonapps.bakingapp;
 
 import com.larsonapps.bakingapp.data.BakingIngredient;
 import com.larsonapps.bakingapp.data.BakingRecipe;
-import com.larsonapps.bakingapp.data.BakingRecipeEntity;
 import com.larsonapps.bakingapp.data.BakingStep;
 
 import org.junit.Test;

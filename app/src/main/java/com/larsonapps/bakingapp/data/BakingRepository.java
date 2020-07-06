@@ -7,14 +7,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.larsonapps.bakingapp.R;
 import com.larsonapps.bakingapp.utilities.BakingExecutor;
-import com.larsonapps.bakingapp.utilities.BakingIdlingResource;
 import com.larsonapps.bakingapp.utilities.BakingJsonUtilities;
 import com.larsonapps.bakingapp.utilities.BakingNetworkUtilities;
 import com.larsonapps.bakingapp.utilities.BakingResult;
 
 import java.net.URL;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 /**
  * Interface for the callback
@@ -77,11 +75,7 @@ public class BakingRepository {
         });
     }
 
-    public LiveData<BakingResult<List<BakingRecipe>>> getBakingRecipes (
-            BakingIdlingResource bakingIdlingResource) {
-        if (bakingIdlingResource != null) {
-            bakingIdlingResource.setIdleState(false);
-        }
+    public LiveData<BakingResult<List<BakingRecipe>>> getBakingRecipes () {
         retrieveBakingList(bakingResult -> mBakingResult.postValue(bakingResult));
         return mBakingResult;
     }

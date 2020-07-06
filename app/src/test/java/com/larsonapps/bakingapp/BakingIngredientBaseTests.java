@@ -2,7 +2,6 @@ package com.larsonapps.bakingapp;
 
 import com.larsonapps.bakingapp.data.BakingIngredient;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
