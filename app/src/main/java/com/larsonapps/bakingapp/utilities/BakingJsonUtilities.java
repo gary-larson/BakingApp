@@ -68,6 +68,8 @@ public class BakingJsonUtilities {
                 bakingIngredient.setQuantity(currentIngredientJson.getDouble(QUANTITY));
                 bakingIngredient.setMeasure(currentIngredientJson.getString(MEASURE));
                 bakingIngredient.setIngredient(currentIngredientJson.getString(INGREDIENT));
+                // Add recipe key to baking ingredient
+                bakingIngredient.setRecipeKey(bakingRecipe.getId());
                 // add ingredient to ingredients list
                 bakingIngredients.add(bakingIngredient);
             }
@@ -89,6 +91,8 @@ public class BakingJsonUtilities {
                 bakingStep.setDescription(currentStepJson.getString(DESCRIPTION));
                 bakingStep.setVideoURL(currentStepJson.getString(VIDEO_URL));
                 bakingStep.setThumbnailURL(currentStepJson.getString(THUMBNAIL_URL));
+                // add recipe key to baking step
+                bakingStep.setRecipeKey(bakingRecipe.getId());
                 // add step to steps list
                 bakingSteps.add(bakingStep);
             }

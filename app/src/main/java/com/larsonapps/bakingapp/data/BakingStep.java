@@ -10,11 +10,7 @@ import androidx.room.PrimaryKey;
 /**
  * Class to deal with a baking step and define the steps table for room
  */
-@Entity(tableName = "steps", indices = {@Index("recipe_key")},
-        foreignKeys = @ForeignKey(entity = BakingRecipeEntity.class,
-        parentColumns = "recipe_id",
-        childColumns = "recipe_key",
-        onDelete = ForeignKey.NO_ACTION))
+@Entity(tableName = "steps")
 public class BakingStep {
     // Declare Variables
     @PrimaryKey(autoGenerate = true)

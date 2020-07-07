@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 /**
  * Class to define the baking_recipe table for room
  */
-@Entity(tableName = "backing_recipe")
+@Entity(tableName = "baking_recipe")
 public class BakingRecipeEntity {
     // Declare Variables
     @PrimaryKey

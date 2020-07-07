@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.larsonapps.bakingapp.BakingActivity;
 import com.larsonapps.bakingapp.R;
 import com.larsonapps.bakingapp.data.BakingRecipe;
+import com.larsonapps.bakingapp.data.BakingRecipeEntity;
 import com.larsonapps.bakingapp.databinding.BakingFragmentBinding;
 import com.larsonapps.bakingapp.utilities.BakingResult;
 
@@ -57,12 +58,15 @@ public class BakingFragment extends Fragment {
                 newBakingRecipes -> {
                     //
                     if (newBakingRecipes instanceof BakingResult.Error) {
-                        binding.tvErrorMessage.setText(((BakingResult.Error<List<BakingRecipe>>) newBakingRecipes).mErrorMessage);
+                        binding.tvErrorMessage
+                                .setText(((BakingResult.Error<List<BakingRecipeEntity>>)
+                                        newBakingRecipes).mErrorMessage);
                         showErrorMessage();
                     } else {
-                        BakingResult.Success<List<BakingRecipe>> result = (BakingResult.Success<List<BakingRecipe>>) newBakingRecipes;
+                        BakingResult.Success<List<BakingRecipeEntity>> result =
+                                (BakingResult.Success<List<BakingRecipeEntity>>) newBakingRecipes;
                         if (result != null) {
-                            List<BakingRecipe> bakingRecipes = result.data;
+                            List<BakingRecipeEntity> bakingRecipes = result.data;
                             bakingAdapter.setBakingRecipes(bakingRecipes);
                             showRecyclerview();
                         } else {
@@ -106,7 +110,7 @@ public class BakingFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // set arguments type and name
-        void onListFragmentInteraction(BakingRecipe bakingRecipe);
+        void onListFragmentInteraction(BakingRecipeEntity bakingRecipe);
     }
 
     private void showErrorMessage () {

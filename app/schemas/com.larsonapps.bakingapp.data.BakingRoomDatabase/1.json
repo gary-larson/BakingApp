@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a977828c2dbc9710b010be815bf90605",
+    "identityHash": "b9d8cedb8ccc173572db2d30e0671ccb",
     "entities": [
       {
-        "tableName": "backing_recipe",
+        "tableName": "baking_recipe",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`recipe_id` INTEGER NOT NULL, `recipe_name` TEXT, `servings` INTEGER NOT NULL, `image` TEXT, PRIMARY KEY(`recipe_id`))",
         "fields": [
           {
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "ingredients",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ingredient_key` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `recipe_key` INTEGER NOT NULL, `quantity` REAL NOT NULL, `measure` TEXT, `ingredient` TEXT, FOREIGN KEY(`recipe_key`) REFERENCES `backing_recipe`(`recipe_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`ingredient_key` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `recipe_key` INTEGER NOT NULL, `quantity` REAL NOT NULL, `measure` TEXT, `ingredient` TEXT)",
         "fields": [
           {
             "fieldPath": "mIngredientKey",
@@ -83,33 +83,12 @@
           ],
           "autoGenerate": true
         },
-        "indices": [
-          {
-            "name": "index_ingredients_recipe_key",
-            "unique": false,
-            "columnNames": [
-              "recipe_key"
-            ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_ingredients_recipe_key` ON `${TABLE_NAME}` (`recipe_key`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "backing_recipe",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "recipe_key"
-            ],
-            "referencedColumns": [
-              "recipe_id"
-            ]
-          }
-        ]
+        "indices": [],
+        "foreignKeys": []
       },
       {
         "tableName": "steps",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`step_key` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `recipe_key` INTEGER NOT NULL, `step_id` INTEGER NOT NULL, `short_description` TEXT, `description` TEXT, `video_url` TEXT, `thumbnail_url` TEXT, FOREIGN KEY(`recipe_key`) REFERENCES `backing_recipe`(`recipe_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`step_key` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `recipe_key` INTEGER NOT NULL, `step_id` INTEGER NOT NULL, `short_description` TEXT, `description` TEXT, `video_url` TEXT, `thumbnail_url` TEXT)",
         "fields": [
           {
             "fieldPath": "mStepKey",
@@ -160,35 +139,14 @@
           ],
           "autoGenerate": true
         },
-        "indices": [
-          {
-            "name": "index_steps_recipe_key",
-            "unique": false,
-            "columnNames": [
-              "recipe_key"
-            ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_steps_recipe_key` ON `${TABLE_NAME}` (`recipe_key`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "backing_recipe",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "recipe_key"
-            ],
-            "referencedColumns": [
-              "recipe_id"
-            ]
-          }
-        ]
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a977828c2dbc9710b010be815bf90605')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b9d8cedb8ccc173572db2d30e0671ccb')"
     ]
   }
 }

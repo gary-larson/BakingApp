@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.larsonapps.bakingapp.data.BakingRecipe;
+import com.larsonapps.bakingapp.data.BakingRecipeEntity;
 import com.larsonapps.bakingapp.data.BakingRepository;
 import com.larsonapps.bakingapp.utilities.BakingResult;
 
@@ -15,7 +16,7 @@ public class BakingViewModel extends AndroidViewModel {
     // Declare variables
     Application mApplication;
     BakingRepository mBakingRepository;
-    LiveData<BakingResult<List<BakingRecipe>>> mBakingRecipes;
+    LiveData<BakingResult<List<BakingRecipeEntity>>> mBakingRecipes;
 
     /**
      * Constructor foe baking view model
@@ -27,7 +28,7 @@ public class BakingViewModel extends AndroidViewModel {
         mBakingRepository = new BakingRepository(mApplication);
     }
 
-    public LiveData<BakingResult<List<BakingRecipe>>> getBakingRecipes () {
+    public LiveData<BakingResult<List<BakingRecipeEntity>>> getBakingRecipes () {
         if (mBakingRecipes == null) {
             mBakingRecipes = mBakingRepository.getBakingRecipes();
         }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.larsonapps.bakingapp.data.BakingRecipe;
+import com.larsonapps.bakingapp.data.BakingRecipeEntity;
 import com.larsonapps.bakingapp.ui.main.BakingFragment;
 import com.larsonapps.bakingapp.ui.main.BakingViewModel;
 
@@ -35,7 +36,7 @@ public class BakingActivity extends AppCompatActivity implements BakingFragment.
     }
 
     @Override
-    public void onListFragmentInteraction(BakingRecipe bakingRecipe) {
+    public void onListFragmentInteraction(BakingRecipeEntity bakingRecipe) {
         Toast.makeText(this, "Clicked: " + bakingRecipe.getName(),
                 Toast.LENGTH_LONG).show();
     }

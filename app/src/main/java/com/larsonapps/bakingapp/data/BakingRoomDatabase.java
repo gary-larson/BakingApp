@@ -7,15 +7,17 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {BakingRecipeEntity.class, BakingIngredient.class, BakingStep.class},
-        version = 1)
+        version = 2)
 public abstract class BakingRoomDatabase extends RoomDatabase {
-    // TODO create daos
+    // Register Dao
+    public abstract BakingDao bakingDao();
 
     private static volatile BakingRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -29,6 +31,7 @@ public abstract class BakingRoomDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             BakingRoomDatabase.class, "baking_database")
                             .addCallback(sRoomDatabaseCallback)
+                            .fallbackToDestructiveMigration()
                             .build();
 
                 }
@@ -41,13 +44,8 @@ public abstract class BakingRoomDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            // If you want to keep data through app restarts,
-            // comment out the following block
-            databaseWriteExecutor.execute(() -> {
-                // Populate the database in the background.
-                // If you want to start with more words, just add them.
 
-            });
         }
     };
+
 }

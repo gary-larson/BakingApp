@@ -12,6 +12,7 @@ import com.larsonapps.bakingapp.utilities.BakingNetworkUtilities;
 import com.larsonapps.bakingapp.utilities.BakingResult;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,13 +28,17 @@ public class BakingRepository {
     private final BakingExecutor executor;
     private final Application mApplication;
     private final String mErrorMessage;
-    private MutableLiveData<BakingResult<List<BakingRecipe>>> mBakingResult;
+    private MutableLiveData<BakingResult<List<BakingRecipeEntity>>> mBakingResult;
+    // Database variable
+    BakingDao mBakingDao;
 
     public BakingRepository (Application application) {
         // Initialize variables
         mApplication = application;
         mErrorMessage = mApplication.getString(R.string.error_message);
         executor = new BakingExecutor();
+        BakingRoomDatabase bakingRoomDatabase = BakingRoomDatabase.getDatabase(application);
+        mBakingDao = bakingRoomDatabase.bakingDao();
         mBakingResult = new MutableLiveData<>();
     }
 
@@ -75,8 +80,67 @@ public class BakingRepository {
         });
     }
 
-    public LiveData<BakingResult<List<BakingRecipe>>> getBakingRecipes () {
-        retrieveBakingList(bakingResult -> mBakingResult.postValue(bakingResult));
+    /**
+     * Method to determine if data is in room database if not retrieve data and put it into database
+     * @return results
+     */
+    public LiveData<BakingResult<List<BakingRecipeEntity>>> getBakingRecipes () {
+        // Start Database executor
+        BakingRoomDatabase.databaseWriteExecutor.execute(() -> {
+            // get Baking Recipes from database
+            List<BakingRecipeEntity> bakingRecipeEntities = mBakingDao.getAllBakingRecipes();
+            // test results and retrieve data from internet if required
+            if (bakingRecipeEntities.size() == 0) {
+                retrieveBakingList(bakingResult -> {
+                    // test for success
+                    if (bakingResult instanceof BakingResult.Success) {
+                        // convert information to usable format
+                        List<BakingRecipe> bakingRecipes =
+                                ((BakingResult.Success<List<BakingRecipe>>) bakingResult).data;
+                        List<BakingRecipeEntity> newBakingRecipeEntities = new ArrayList<>();
+                        // setup loop to convert data for database
+                        for (int i = 0; i < bakingRecipes.size(); i++) {
+                            // create entity and populate with data
+                            BakingRecipeEntity bakingRecipeEntity = new BakingRecipeEntity(
+                                    bakingRecipes.get(i).getId(),
+                                    bakingRecipes.get(i).getName(),
+                                    bakingRecipes.get(i).getServings(),
+                                    bakingRecipes.get(i).getImage());
+                            // add to baking recipe entity list
+                            newBakingRecipeEntities.add(bakingRecipeEntity);
+                            // put ingredients for this recipe in database
+                            mBakingDao.InsertAllBakingIngredients(bakingRecipes.get(i)
+                                    .getIngredientList());
+                            // put steps for this recipe in database
+                            mBakingDao.InsertAllBakingSteps(bakingRecipes.get(i).getStepList());
+                        }
+                        // put all recipes in database
+                        mBakingDao.InsertAllBakingRecipes(newBakingRecipeEntities);
+                        // create baking result for entities
+                        BakingResult<List<BakingRecipeEntity>> newBakingResult = new
+                                BakingResult.Success<>(newBakingRecipeEntities);
+                        // post baking results to be distributed through live data
+                        mBakingResult.postValue(newBakingResult);
+                    } else {
+                        // On error extract error
+                        String errorString = ((BakingResult.Error<List<BakingRecipe>>) bakingResult)
+                                .mErrorMessage;
+                        // put error in entity result
+                        BakingResult<List<BakingRecipeEntity>> newBakingResult = new
+                                BakingResult.Error<>(errorString);
+                        // post error
+                        mBakingResult.postValue(newBakingResult);
+                    }
+                });
+            } else {
+                // create new success result for database data
+                BakingResult<List<BakingRecipeEntity>> newBakingResult = new
+                        BakingResult.Success<>(bakingRecipeEntities);
+                // post result
+                mBakingResult.postValue(newBakingResult);
+            }
+        });
+        // return result through live data
         return mBakingResult;
     }
 }

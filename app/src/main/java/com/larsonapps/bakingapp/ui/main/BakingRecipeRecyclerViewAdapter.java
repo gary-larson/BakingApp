@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.larsonapps.bakingapp.R;
 import com.larsonapps.bakingapp.data.BakingRecipe;
+import com.larsonapps.bakingapp.data.BakingRecipeEntity;
 import com.larsonapps.bakingapp.databinding.BakingFragmentListItemBinding;
 import com.squareup.picasso.Picasso;
 
@@ -21,7 +22,7 @@ public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<Baking
     // Declare Variables
     private BakingFragmentListItemBinding binding;
     Context context;
-    private List<BakingRecipe> mBakingRecipes;
+    private List<BakingRecipeEntity> mBakingRecipes;
 
     // Variable for listener
     private final BakingFragment.OnListFragmentInteractionListener mListener;
@@ -43,7 +44,7 @@ public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<Baking
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Declare a variable of the movie results
-        final List<BakingRecipe> bakingRecipes = mBakingRecipes;
+        final List<BakingRecipeEntity> bakingRecipes = mBakingRecipes;
         if (mBakingRecipes.get(position) != null) {
             holder.mBakingRecipe = mBakingRecipes.get(position);
             if (bakingRecipes.get(position).getImage() != null &&
@@ -80,7 +81,7 @@ public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<Baking
         return 0;
     }
 
-    public void setBakingRecipes (List<BakingRecipe> bakingRecipes) {
+    public void setBakingRecipes (List<BakingRecipeEntity> bakingRecipes) {
         mBakingRecipes = bakingRecipes;
         notifyDataSetChanged();
     }
@@ -91,7 +92,7 @@ public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<Baking
     class ViewHolder extends RecyclerView.ViewHolder {
         // Declare variables
         final View mView;
-        public BakingRecipe mBakingRecipe;
+        public BakingRecipeEntity mBakingRecipe;
         ImageView mImageView;
 
         /**
