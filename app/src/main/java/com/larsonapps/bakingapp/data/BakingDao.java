@@ -32,8 +32,10 @@ public interface BakingDao {
     List<BakingRecipeEntity> getAllBakingRecipes();
 
     @Query("SELECT * FROM ingredients WHERE recipe_key = :recipeKey")
-    LiveData<List<BakingIngredient>> getAllBakingIngredients(int recipeKey);
+    List<BakingIngredient> getAllBakingIngredients(int recipeKey);
+    //LiveData<List<BakingIngredient>> getAllBakingIngredients(int recipeKey);
 
     @Query("SELECT * FROM steps WHERE recipe_key = :recipeKey")
-    LiveData<List<BakingStep>> getAllBakingSteps(int recipeKey);
+    List<BakingStep> getAllBakingSteps(int recipeKey);
+    //LiveData<List<BakingStep>> getAllBakingSteps(int recipeKey);
 }
