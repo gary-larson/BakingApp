@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/baking_ingredient_margin"
+        android:layout_weight="1"
+        android:background="@drawable/baking_recipe_list_item_background" >
+
+        <TextView
+            android:id="@+id/tv_ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/baking_ingredient_padding"
+            android:layout_margin="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem" />
+    </ScrollView>
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/rv_detail_list"
+    android:name="com.larsonapps.bakingapp.ui.main.BakingDetailFragment"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="2"
+    android:layout_marginLeft="@dimen/baking_ingredient_margin"
+    android:layout_marginRight="@dimen/baking_ingredient_margin"
+    app:layoutManager="LinearLayoutManager"
+    tools:context=".ui.BakingDetailFragment"
+    tools:listitem="@layout/fragment_baking_detail_list_item" />
+
+</LinearLayout>

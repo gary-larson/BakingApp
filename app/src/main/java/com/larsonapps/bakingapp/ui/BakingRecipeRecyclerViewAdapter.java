@@ -1,4 +1,4 @@
-package com.larsonapps.bakingapp.ui.main;
+package com.larsonapps.bakingapp.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,24 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.larsonapps.bakingapp.R;
-import com.larsonapps.bakingapp.data.BakingRecipe;
 import com.larsonapps.bakingapp.data.BakingRecipeEntity;
-import com.larsonapps.bakingapp.databinding.BakingFragmentListItemBinding;
+import com.larsonapps.bakingapp.databinding.FragmentBakingListItemBinding;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.List;
 
 public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<BakingRecipeRecyclerViewAdapter.ViewHolder> {
     // Declare Variables
-    private BakingFragmentListItemBinding binding;
+    private FragmentBakingListItemBinding binding;
     Context context;
     private List<BakingRecipeEntity> mBakingRecipes;
 
     // Variable for listener
     private final BakingFragment.OnListFragmentInteractionListener mListener;
 
-    public BakingRecipeRecyclerViewAdapter (BakingFragment.OnListFragmentInteractionListener listener) {
+    public BakingRecipeRecyclerViewAdapter (BakingFragment.OnListFragmentInteractionListener
+                                                    listener) {
         mListener = listener;
     }
 
@@ -35,7 +34,7 @@ public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<Baking
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        binding = BakingFragmentListItemBinding.inflate(LayoutInflater.from(context), parent,
+        binding = FragmentBakingListItemBinding.inflate(LayoutInflater.from(context), parent,
                 false);
         View view = binding.getRoot();
         return new ViewHolder(view);

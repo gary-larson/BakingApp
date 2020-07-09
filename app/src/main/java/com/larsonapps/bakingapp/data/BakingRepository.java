@@ -29,6 +29,8 @@ public class BakingRepository {
     private final Application mApplication;
     private final String mErrorMessage;
     private MutableLiveData<BakingResult<List<BakingRecipeEntity>>> mBakingResult;
+    private MutableLiveData<List<BakingIngredient>> mBakingIngredients;
+    private MutableLiveData<List<BakingStep>> mBakingSteps;
     // Database variable
     BakingDao mBakingDao;
 
@@ -40,6 +42,8 @@ public class BakingRepository {
         BakingRoomDatabase bakingRoomDatabase = BakingRoomDatabase.getDatabase(application);
         mBakingDao = bakingRoomDatabase.bakingDao();
         mBakingResult = new MutableLiveData<>();
+        mBakingIngredients = new MutableLiveData<>();
+        mBakingSteps = new MutableLiveData<>();
     }
 
     /**
@@ -142,5 +146,28 @@ public class BakingRepository {
         });
         // return result through live data
         return mBakingResult;
+    }
+
+    public LiveData<List<BakingIngredient>> getBakingIngredients(int recipeKey) {
+        // Start Database executor
+        BakingRoomDatabase.databaseWriteExecutor.execute(() -> {
+            // get Baking Ingredients from database
+            List<BakingIngredient> bakingIngredients = mBakingDao.getAllBakingIngredients(recipeKey);
+            // enter results through lice data
+            mBakingIngredients.postValue(bakingIngredients);
+        });
+        return mBakingIngredients;
+    }
+
+    public LiveData<List<BakingStep>> getBakingSteps(int recipeKey) {
+
+        // Start Batabase executor
+        BakingRoomDatabase.databaseWriteExecutor.execute(() -> {
+            // get baking steps from database
+            List<BakingStep> bakingSteps = mBakingDao.getAllBakingSteps(recipeKey);
+            // enter results through live data
+            mBakingSteps.postValue(bakingSteps);
+        });
+        return mBakingSteps;
     }
 }

@@ -1,22 +1,29 @@
 package com.larsonapps.bakingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.larsonapps.bakingapp.data.BakingRecipe;
 import com.larsonapps.bakingapp.data.BakingRecipeEntity;
-import com.larsonapps.bakingapp.ui.main.BakingFragment;
-import com.larsonapps.bakingapp.ui.main.BakingViewModel;
+import com.larsonapps.bakingapp.data.BakingStep;
+import com.larsonapps.bakingapp.ui.BakingDetailFragment;
+import com.larsonapps.bakingapp.ui.BakingFragment;
+import com.larsonapps.bakingapp.ui.BakingViewModel;
 
 /**
  * Class for the MainActivity
  */
-public class BakingActivity extends AppCompatActivity implements BakingFragment.OnListFragmentInteractionListener {
+public class BakingActivity extends AppCompatActivity implements
+        BakingFragment.OnListFragmentInteractionListener,
+        BakingDetailFragment.OnListFragmentInteractionListener {
+    // Declare constants
+    private static final String BAKING_DETAIL_FRAGMENT = "BakingDetailFragment";
     // Declare variables
     BakingViewModel mBakingViewModel;
+    FragmentManager mFragmentManager;
 
     /**
      * Method to create activity
@@ -25,9 +32,10 @@ public class BakingActivity extends AppCompatActivity implements BakingFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.baking_activity);
+        setContentView(R.layout.activity_baking);
+        mFragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            mFragmentManager.beginTransaction()
                     .replace(R.id.container, BakingFragment.newInstance())
                     .commitNow();
         }
@@ -37,7 +45,16 @@ public class BakingActivity extends AppCompatActivity implements BakingFragment.
 
     @Override
     public void onListFragmentInteraction(BakingRecipeEntity bakingRecipe) {
-        Toast.makeText(this, "Clicked: " + bakingRecipe.getName(),
-                Toast.LENGTH_LONG).show();
+        mBakingViewModel.setRecipeKey(bakingRecipe.getId());
+        mFragmentManager.beginTransaction()
+                .replace(R.id.container, BakingDetailFragment.newInstance())
+                .addToBackStack(BAKING_DETAIL_FRAGMENT)
+                .commit();
+    }
+
+    @Override
+    public void onListFragmentInteraction(BakingStep bakingStep) {
+        Toast.makeText(this, "Step " + bakingStep.getId() +
+                " Description: " + bakingStep.getShortDescription(), Toast.LENGTH_LONG).show();
     }
 }

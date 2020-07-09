@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:visibility="invisible"
         tools:context=".MovieItemFragment"
-        tools:listitem="@layout/baking_fragment_list_item" />
+        tools:listitem="@layout/fragment_baking_list_item" />
 
     <TextView
         android:id="@+id/tv_error_message"

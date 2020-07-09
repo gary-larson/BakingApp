@@ -1,35 +1,31 @@
-package com.larsonapps.bakingapp.ui.main;
-
-import androidx.lifecycle.ViewModelProvider;
+package com.larsonapps.bakingapp.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.larsonapps.bakingapp.BakingActivity;
 import com.larsonapps.bakingapp.R;
-import com.larsonapps.bakingapp.data.BakingRecipe;
 import com.larsonapps.bakingapp.data.BakingRecipeEntity;
-import com.larsonapps.bakingapp.databinding.BakingFragmentBinding;
+import com.larsonapps.bakingapp.databinding.FragmentBakingListBinding;
 import com.larsonapps.bakingapp.utilities.BakingResult;
 
 import java.util.List;
 
 public class BakingFragment extends Fragment {
     // Declare variables
-    private BakingFragmentBinding binding;
+    private FragmentBakingListBinding binding;
     private BakingViewModel mBakingViewModel;
     private BakingActivity mBakingActivity;
-    private int mColumnCount;
     private OnListFragmentInteractionListener mListener;
 
     public static BakingFragment newInstance() {
@@ -40,12 +36,12 @@ public class BakingFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = BakingFragmentBinding.inflate(inflater, container, false);
+        binding = FragmentBakingListBinding.inflate(inflater, container, false);
         View mView = binding.getRoot();
         mBakingActivity = (BakingActivity) getActivity();
         mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
         BakingRecipeRecyclerViewAdapter bakingAdapter = new BakingRecipeRecyclerViewAdapter(mListener);
-        mColumnCount = getResources().getInteger(R.integer.number_of_horizontal_columns);
+        int mColumnCount = getResources().getInteger(R.integer.number_of_horizontal_columns);
         if (mColumnCount <= 1) {
             binding.rvRecipeList.setLayoutManager(new LinearLayoutManager(getContext()));
         } else {
