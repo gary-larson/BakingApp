@@ -16,6 +16,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+/**
+ * Class to handle baking recipe recyclerview adapter
+ */
 public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<BakingRecipeRecyclerViewAdapter.ViewHolder> {
     // Declare Variables
     private FragmentBakingListItemBinding binding;
@@ -25,35 +28,55 @@ public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<Baking
     // Variable for listener
     private final BakingFragment.OnListFragmentInteractionListener mListener;
 
+    /**
+     * Constructor that sets listener
+     * @param listener to set
+     */
     public BakingRecipeRecyclerViewAdapter (BakingFragment.OnListFragmentInteractionListener
                                                     listener) {
         mListener = listener;
     }
 
+    /**
+     * Method to create the view holder
+     * @param parent of the view holder
+     * @param viewType of the view holder
+     * @return view holder created
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
+        // set view binding
         binding = FragmentBakingListItemBinding.inflate(LayoutInflater.from(context), parent,
                 false);
+        // get view
         View view = binding.getRoot();
+        // return view holder created
         return new ViewHolder(view);
     }
 
+    /**
+     * Method to handle view holder binding
+     * @param holder to bind
+     * @param position of the holder
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Declare a variable of the movie results
+        // Declare a variable of the baking recipes
         final List<BakingRecipeEntity> bakingRecipes = mBakingRecipes;
         if (mBakingRecipes.get(position) != null) {
+            // set holder baking recipe
             holder.mBakingRecipe = mBakingRecipes.get(position);
+            // if image use picasso to display it (show nothing if no image)
             if (bakingRecipes.get(position).getImage() != null &&
                     !bakingRecipes.get(position).getImage().equals("")) {
                 Picasso.get().load(bakingRecipes.get(position).getImage())
-                        // TODO create error drawable .error(R.mipmap.error)
                         .noPlaceholder()
                         .centerInside()
                         .into(holder.mImageView);
             }
+            // set name of recipe
             binding.tvRecipeName.setText(bakingRecipes.get(position).getName());
 
             // Display servings
@@ -72,6 +95,10 @@ public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<Baking
         }
     }
 
+    /**
+     * Method to get the number of baking recipes or 0
+     * @return number of baking recipes
+     */
     @Override
     public int getItemCount() {
         if (mBakingRecipes != null && mBakingRecipes.size() > 0) {
@@ -80,6 +107,10 @@ public class BakingRecipeRecyclerViewAdapter extends RecyclerView.Adapter<Baking
         return 0;
     }
 
+    /**
+     * Method to set new data and refresh adapter
+     * @param bakingRecipes to set
+     */
     public void setBakingRecipes (List<BakingRecipeEntity> bakingRecipes) {
         mBakingRecipes = bakingRecipes;
         notifyDataSetChanged();

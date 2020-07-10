@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BakingApp</string>
+    <string name="app_name">Baking Time</string>
     <string name="error_message">
         Unknown Network Error\nPlease check internet connectivity\nThen try again!</string>
     <string name="mainfragment">MainFragment</string>
