@@ -1,4 +1,4 @@
-package com.larsonapps.bakingapp.ui;
+package com.larsonapps.bakingapp;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,14 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.larsonapps.bakingapp.BakingActivity;
-import com.larsonapps.bakingapp.R;
 import com.larsonapps.bakingapp.data.BakingStep;
 import com.larsonapps.bakingapp.databinding.FragmentBakingDetailListBinding;
+import com.larsonapps.bakingapp.adapter.BakingStepRecyclerViewAdapter;
+import com.larsonapps.bakingapp.viewmodel.BakingViewModel;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Method;
 
 /**
  * A fragment representing a list of Items.

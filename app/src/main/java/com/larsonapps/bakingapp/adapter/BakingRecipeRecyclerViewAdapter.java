@@ -1,4 +1,4 @@
-package com.larsonapps.bakingapp.ui;
+package com.larsonapps.bakingapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.larsonapps.bakingapp.BakingFragment;
 import com.larsonapps.bakingapp.R;
 import com.larsonapps.bakingapp.data.BakingRecipeEntity;
 import com.larsonapps.bakingapp.databinding.FragmentBakingListItemBinding;

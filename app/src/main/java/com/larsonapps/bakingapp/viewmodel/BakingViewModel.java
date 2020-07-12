@@ -1,4 +1,4 @@
-package com.larsonapps.bakingapp.ui;
+package com.larsonapps.bakingapp.viewmodel;
 
 import android.app.Application;
 

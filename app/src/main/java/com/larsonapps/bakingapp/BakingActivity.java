@@ -9,9 +9,7 @@ import android.widget.Toast;
 
 import com.larsonapps.bakingapp.data.BakingRecipeEntity;
 import com.larsonapps.bakingapp.data.BakingStep;
-import com.larsonapps.bakingapp.ui.BakingDetailFragment;
-import com.larsonapps.bakingapp.ui.BakingFragment;
-import com.larsonapps.bakingapp.ui.BakingViewModel;
+import com.larsonapps.bakingapp.viewmodel.BakingViewModel;
 
 /**
  * Class for the MainActivity

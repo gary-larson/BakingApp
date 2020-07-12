@@ -1,4 +1,4 @@
-package com.larsonapps.bakingapp.ui;
+package com.larsonapps.bakingapp.adapter;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.larsonapps.bakingapp.BakingDetailFragment;
 import com.larsonapps.bakingapp.data.BakingStep;
 import com.larsonapps.bakingapp.databinding.FragmentBakingDetailListItemBinding;
 

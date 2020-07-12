@@ -31,7 +31,7 @@
     android:layout_marginLeft="@dimen/baking_ingredient_margin"
     android:layout_marginRight="@dimen/baking_ingredient_margin"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".ui.BakingDetailFragment"
+    tools:context=".BakingDetailFragment"
     tools:listitem="@layout/fragment_baking_detail_list_item" />
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.larsonapps.bakingapp.ui;
+package com.larsonapps.bakingapp;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,10 +13,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.larsonapps.bakingapp.BakingActivity;
-import com.larsonapps.bakingapp.R;
 import com.larsonapps.bakingapp.data.BakingRecipeEntity;
 import com.larsonapps.bakingapp.databinding.FragmentBakingListBinding;
+import com.larsonapps.bakingapp.adapter.BakingRecipeRecyclerViewAdapter;
+import com.larsonapps.bakingapp.viewmodel.BakingViewModel;
 import com.larsonapps.bakingapp.utilities.BakingResult;
 
 import java.util.List;
