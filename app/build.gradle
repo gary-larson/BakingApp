@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "30.0.0"
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.larsonapps.bakingapp"
+        applicationId "mobi.thalic.bakingapp"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1

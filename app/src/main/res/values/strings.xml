@@ -6,4 +6,6 @@
     <string name="recipe_image_description">Image of Recipe</string>
     <string name="baking_recipe_serving">Servings: %d</string>
     <string name="baking_ingrediant_string">%s - %.1f %s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
