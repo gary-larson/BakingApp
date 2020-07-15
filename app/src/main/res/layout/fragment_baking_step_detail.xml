@@ -103,7 +103,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="@string/baking_step_previous_step"
-            style="?android:attr/buttonBarButtonStyle"/>
+            style="?android:attr/buttonBarButtonStyle"
+            android:textColor="@android:color/black" />
 
         <Button
             android:id="@+id/b_next_step"
@@ -111,7 +112,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="@string/baking_step_next_step"
-            style="?android:attr/buttonBarButtonStyle"/>
+            style="?android:attr/buttonBarButtonStyle"
+            android:textColor="@android:color/black"/>
 
     </LinearLayout>
 
