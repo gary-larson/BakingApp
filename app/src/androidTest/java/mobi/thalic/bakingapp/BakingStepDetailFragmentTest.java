@@ -17,8 +17,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
-public class BakingFragmentStepTest {
+public class BakingStepDetailFragmentTest {
     // Declare constants
+    private static final String STEP_2_DISPLAYED = "2. Whisk the graham cracker crumbs, 50 grams " +
+            "(1/4 cup) of sugar, and 1/2 teaspoon of salt together in a medium bowl. Pour the " +
+            "melted butter and 1 teaspoon of vanilla into the dry ingredients and stir together " +
+            "until evenly mixed.";
     private static final String STEP_2 = "Prep the cookie crust.";
     private static final String DISPLAYED_TEXT = "Nutella Pie";
 
@@ -32,13 +36,15 @@ public class BakingFragmentStepTest {
     @Test
     public void testStepInTextView () {
         onView(withText(DISPLAYED_TEXT)).perform(click());
-        onView(withText(STEP_2)).check(matches(isDisplayed()));
+        onView(withText(STEP_2)).perform(click());
+        onView(withText(STEP_2_DISPLAYED)).check(matches(isDisplayed()));
     }
 
     @Test
     public void testStepTitle() {
         onView(withText(DISPLAYED_TEXT)).perform(click());
+        onView(withText(STEP_2)).perform(click());
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class))))
-                .check(matches(withText(DISPLAYED_TEXT)));
+                .check(matches(withText(STEP_2)));
     }
 }
