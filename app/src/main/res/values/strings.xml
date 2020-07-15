@@ -6,6 +6,14 @@
     <string name="recipe_image_description">Image of Recipe</string>
     <string name="baking_recipe_serving">Servings: %d</string>
     <string name="baking_ingrediant_string">%s - %.1f %s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="baking_step_no_video_message">No Video Available</string>
+    <string name="baking_step_previous_step">Previous Step</string>
+    <string name="baking_step_next_step">Next Step</string>
+    <string name="notification_title">Recipe Step</string>
+    <string name="notification_text">Press play to watch the step!</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="restart">Restart</string>
+    <string name="channel_name">Baking App</string>
+    <string name="channel_description">Notifications for the Baking App</string>
 </resources>

@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import mobi.thalic.bakingapp.R;
 import mobi.thalic.bakingapp.data.BakingRecipeEntity;
@@ -20,6 +25,7 @@ public class BakingActivity extends AppCompatActivity implements FragmentManager
         BakingDetailFragment.OnListFragmentInteractionListener {
     // Declare constants
     private static final String BAKING_DETAIL_FRAGMENT = "BakingDetailFragment";
+    private static final String BAKING_STEP_DETAIL_FRAGMENT = "BakingStepDetailFragment";
     // Declare variables
     BakingViewModel mBakingViewModel;
     FragmentManager mFragmentManager;
@@ -93,12 +99,31 @@ public class BakingActivity extends AppCompatActivity implements FragmentManager
     }
 
     /**
-     * Method to handle clicks of baking steps in the baking detail fragment recyclerview
-     * @param bakingStep clicked on
-     */
+          * Method to handle clicks of baking steps in the baking detail fragment recyclerview
+          * @param bakingStep that was clicked
+          */
     @Override
     public void onListFragmentInteraction(BakingStep bakingStep) {
-        Toast.makeText(this, "Step " + bakingStep.getId() +
-                " Description: " + bakingStep.getShortDescription(), Toast.LENGTH_LONG).show();
+        mBakingViewModel.setBakingStep(bakingStep);
+        mFragmentManager.beginTransaction()
+                .replace(R.id.container, BakingStepDetailFragment.newInstance())
+                .addToBackStack(BAKING_STEP_DETAIL_FRAGMENT)
+                .commit();
     }
+
+//    /**
+//     * Method to handle clicks of baking steps in the baking detail fragment recyclerview
+//     * @param bakingSteps list of baking step
+//     * @param position current position in list
+//     */
+//    @Override
+//    public void onListFragmentInteraction(List<BakingStep> bakingSteps, int position) {
+//        Intent intent = new Intent(getApplicationContext(), BakingStepDetailActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("Position", position);
+//        bundle.putParcelableArrayList("BakingStepList",
+//                (ArrayList<? extends Parcelable>) bakingSteps);
+//        intent.putExtras(bundle);
+//        startActivity(intent);
+//    }
 }

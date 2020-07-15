@@ -1,5 +1,8 @@
 package mobi.thalic.bakingapp.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -9,7 +12,7 @@ import androidx.room.PrimaryKey;
  * Class to deal with a baking step and define the steps table for room
  */
 @Entity(tableName = "steps")
-public class BakingStep {
+public class BakingStep implements Parcelable {
     // Declare Variables
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "step_key")
@@ -52,6 +55,20 @@ public class BakingStep {
         mDescription = description;
         mVideoURL = videoURL;
         mThumbnailURL = thumbnailURL;
+    }
+
+    /**
+     * Constructor for parcel
+     * @param in the parcel to process
+     */
+    public BakingStep(Parcel in) {
+        mStepKey = in.readInt();
+        mRecipeKey = in.readInt();
+        mId = in.readInt();
+        mShortDescription = in.readString();
+        mDescription = in.readString();
+        mVideoURL = in.readString();
+        mThumbnailURL = in.readString();
     }
 
     /**
@@ -171,4 +188,51 @@ public class BakingStep {
     public void setThumbnailURL(String thumbnailURL) {
         this.mThumbnailURL = thumbnailURL;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Method to write into parcel
+     * @param dest parcel to write to
+     * @param flags for status
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mStepKey);
+        dest.writeInt(mRecipeKey);
+        dest.writeInt(mId);
+        dest.writeString(mShortDescription);
+        dest.writeString(mDescription);
+        dest.writeString(mVideoURL);
+        dest.writeString(mThumbnailURL);
+    }
+
+    /**
+     * Creator to generate an list from the parcel
+     */
+    public static final Parcelable.Creator<BakingStep> CREATOR = new Parcelable.Creator<BakingStep>() {
+
+        /**
+         * Method to create entry from parcel
+         * @param source parcel
+         * @return baking step class
+         */
+        @Override
+        public BakingStep createFromParcel(Parcel source) {
+            return new BakingStep(source);
+        }
+
+        /**
+         * Method to create an array of baking steps
+         * @param size of array
+         * @return baking step array
+         */
+        @Override
+        public BakingStep[] newArray(int size) {
+            return new BakingStep[size];
+        }
+    };
 }

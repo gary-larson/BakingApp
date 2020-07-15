@@ -5,13 +5,13 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 import mobi.thalic.bakingapp.data.BakingIngredient;
 import mobi.thalic.bakingapp.data.BakingRecipeEntity;
 import mobi.thalic.bakingapp.data.BakingRepository;
 import mobi.thalic.bakingapp.data.BakingStep;
 import mobi.thalic.bakingapp.utilities.BakingResult;
-
-import java.util.List;
 
 /**
  * Class to handle baking view model
@@ -22,6 +22,7 @@ public class BakingViewModel extends AndroidViewModel {
     BakingRepository mBakingRepository;
     private int mRecipeKey;
     private String mRecipeName;
+    private BakingStep mBakingStep;
     LiveData<BakingResult<List<BakingRecipeEntity>>> mBakingRecipes;
     LiveData<List<BakingIngredient>> mBakingIngredients;
     LiveData<List<BakingStep>> mBakingSteps;
@@ -94,4 +95,73 @@ public class BakingViewModel extends AndroidViewModel {
      * @param recipeName to set
      */
     public void setRecipeName(String recipeName) {mRecipeName = recipeName;}
+
+    /**
+     * Getter for baking Step
+     * @return baking step
+     */
+    public BakingStep getBakingStep() {
+        return mBakingStep;
+    }
+
+    /**
+     * Method to get previous baking step from baking step list
+     * @param stepId currently viewed
+     * @return baking step or null if none found
+     */
+    public BakingStep getPreviousBakingStep(int stepId) {
+        // Declare variables
+        List<BakingStep> bakingSteps;
+        // get baking step list
+        bakingSteps = mBakingSteps.getValue();
+        // get baking step from list
+        if (bakingSteps != null) {
+            for (int i = 1; i < bakingSteps.size(); i++) {
+                if (bakingSteps.get(i).getId() == stepId) {
+                    // return baking step if found
+                    return bakingSteps.get(i - 1);
+                }
+            }
+        }
+        // return null if step not found
+        return null;
+    }
+
+    /**
+     * Method to get previous baking step from baking step list
+     * @param stepId currently viewed
+     * @return baking step or null if none found
+     */
+    public BakingStep getNextBakingStep(int stepId) {
+        // Declare variables
+        List<BakingStep> bakingSteps;
+        // get baking step list
+        bakingSteps = mBakingSteps.getValue();
+        // get baking step from list
+        if (bakingSteps != null) {
+            for (int i = 0; i < bakingSteps.size() - 1; i++) {
+                if (bakingSteps.get(i).getId() == stepId) {
+                    // return baking step if found
+                    return bakingSteps.get(i + 1);
+                }
+            }
+        }
+        // return null if step not found
+        return null;
+    }
+
+    /**
+     * Setter for baking step
+     * @param bakingStep to set
+     */
+    public void setBakingStep(BakingStep bakingStep) {
+        this.mBakingStep = bakingStep;
+    }
+
+    public int getLastStepId() {
+        if (mBakingSteps.getValue() != null && mBakingSteps.getValue().size() > 0) {
+            return mBakingSteps.getValue().get(mBakingSteps.getValue().size() - 1).getId();
+        }
+        return 0;
+    }
 }

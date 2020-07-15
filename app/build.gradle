@@ -85,6 +85,8 @@ dependencies {
     // For image placement and control
     implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 
+    implementation 'com.google.android.exoplayer:exoplayer:r2.2.0'
+
     // fragment dependencies
     debugImplementation "androidx.fragment:fragment-testing:$rootProject.fragment_version"
 

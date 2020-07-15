@@ -10,4 +10,5 @@
     <dimen name="baking_ingredient_margin">16dp</dimen>
     <dimen name="baking_recipe_list_item_padding">8dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="baking_step_detail_margin">8dp</dimen>
 </resources>

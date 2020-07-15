@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import mobi.thalic.bakingapp.adapter.BakingStepRecyclerViewAdapter;
 import mobi.thalic.bakingapp.data.BakingStep;
 import mobi.thalic.bakingapp.databinding.FragmentBakingDetailListBinding;
@@ -120,7 +122,7 @@ public class BakingDetailFragment extends Fragment {
         super.onResume();
         // Get activity
         BakingActivity bakingActivity = (BakingActivity) getActivity();
-        // set title and enable up button
+        // set title
         if (bakingActivity != null && mBakingViewModel != null) {
             bakingActivity.setTitle(mBakingViewModel.getRecipeName());
         }
