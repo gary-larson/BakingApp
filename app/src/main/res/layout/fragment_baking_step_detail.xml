@@ -90,7 +90,6 @@
         android:layout_marginRight="@dimen/baking_step_detail_margin"
         android:layout_marginTop="@dimen/baking_step_detail_margin"
         android:background="@drawable/baking_recipe_list_item_background"
-        style="?android:attr/buttonBarStyle"
         app:layout_constraintTop_toBottomOf="@id/horizontal_bottom_sixth"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -102,18 +101,14 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="@string/baking_step_previous_step"
-            style="?android:attr/buttonBarButtonStyle"
-            android:textColor="@android:color/black" />
+            android:text="@string/baking_step_previous_step" />
 
         <Button
             android:id="@+id/b_next_step"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="@string/baking_step_next_step"
-            style="?android:attr/buttonBarButtonStyle"
-            android:textColor="@android:color/black"/>
+            android:text="@string/baking_step_next_step" />
 
     </LinearLayout>
 

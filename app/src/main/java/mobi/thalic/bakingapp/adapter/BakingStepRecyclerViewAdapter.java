@@ -32,8 +32,9 @@ public class BakingStepRecyclerViewAdapter extends RecyclerView.Adapter<BakingSt
      * @param listener to set
      */
     public BakingStepRecyclerViewAdapter(BakingDetailFragment.OnListFragmentInteractionListener
-                                                 listener) {
+                                                 listener, List<BakingStep> bakingSteps) {
        mListener = listener;
+       mBakingSteps = bakingSteps;
     }
 
     /**
@@ -63,12 +64,12 @@ public class BakingStepRecyclerViewAdapter extends RecyclerView.Adapter<BakingSt
      */
     @Override
     public void onBindViewHolder(@NotNull final ViewHolder holder, int position) {
-        // declare and initialize baking steps
-        final List<BakingStep> bakingSteps = mBakingSteps;
         // set description of baking step
-        if (bakingSteps.get(position) != null) {
-            holder.mBakingStep = bakingSteps.get(position);
+        if (mBakingSteps.get(position) != null) {
+            holder.mBakingStep = mBakingSteps.get(position);
             binding.tvStepDescription.setText(holder.mBakingStep.getShortDescription());
+        } else {
+            binding.tvStepDescription.setText("");
         }
         // set up on click listener
         holder.mView.setOnClickListener(v -> {
@@ -90,15 +91,6 @@ public class BakingStepRecyclerViewAdapter extends RecyclerView.Adapter<BakingSt
             return mBakingSteps.size();
         }
         return 0;
-    }
-
-    /**
-     * Method to set new baking steps data and refresh adapter
-     * @param bakingSteps to set
-     */
-    public void setBakingSteps (List<BakingStep> bakingSteps) {
-        mBakingSteps = bakingSteps;
-        notifyDataSetChanged();
     }
 
     /**
@@ -131,5 +123,15 @@ public class BakingStepRecyclerViewAdapter extends RecyclerView.Adapter<BakingSt
         public String toString() {
             return super.toString() + " '" + mDescriptionView.getText() + "'";
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

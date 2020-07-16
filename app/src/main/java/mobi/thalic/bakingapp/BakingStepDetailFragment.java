@@ -45,6 +45,7 @@ public class BakingStepDetailFragment extends Fragment implements View.OnClickLi
         ExoPlayer.EventListener {
     // Declare constants
     private static final String EXO_PLAYER_POSITION = "PlayerPosition";
+    private static final String BAKING_STEP = "BakingStep";
     // Declare variables
     private FragmentBakingStepDetailBinding binding;
     private BakingActivity mBakingActivity;
@@ -91,10 +92,12 @@ public class BakingStepDetailFragment extends Fragment implements View.OnClickLi
         mPlayerView = binding.playerView;
         if (savedInstanceState != null) {
             mPlayerPosition = savedInstanceState.getLong(EXO_PLAYER_POSITION);
+            mBakingStep = savedInstanceState.getParcelable(BAKING_STEP);
         } else {
             mPlayerPosition = 0;
+            mBakingStep = mBakingViewModel.getBakingStep();
         }
-        mBakingStep = mBakingViewModel.getBakingStep();
+
 
         if (mBakingStep == null) {
             return view;
@@ -110,6 +113,7 @@ public class BakingStepDetailFragment extends Fragment implements View.OnClickLi
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(EXO_PLAYER_POSITION, mPlayerPosition);
+        outState.putParcelable(BAKING_STEP, mBakingStep);
     }
 
     /**
@@ -118,34 +122,90 @@ public class BakingStepDetailFragment extends Fragment implements View.OnClickLi
     private void updateUI() {
         // SetTitle of Activity
         mBakingActivity.setTitle(mBakingStep.getShortDescription());
-        if (mBakingStep.getVideoURL() != null && !mBakingStep.getVideoURL().equals("")) {
-            // Initialize the player.
-            initializePlayer(Uri.parse(mBakingStep.getVideoURL()));
-            binding.playerView.setVisibility(View.VISIBLE);
-            binding.tvNoVideoMessage.setVisibility(View.GONE);
-        } else {
-            if (mBakingStep.getThumbnailURL() != null && !mBakingStep.getThumbnailURL().equals("")) {
+        if (binding.tvNoVideoMessage != null) {
+            if (mBakingStep.getVideoURL() != null && !mBakingStep.getVideoURL().equals("")) {
                 // Initialize the player.
-                initializePlayer(Uri.parse(mBakingStep.getThumbnailURL()));
+                initializePlayer(Uri.parse(mBakingStep.getVideoURL()));
                 binding.playerView.setVisibility(View.VISIBLE);
                 binding.tvNoVideoMessage.setVisibility(View.GONE);
             } else {
-                binding.playerView.setVisibility(View.GONE);
-                binding.tvNoVideoMessage.setVisibility(View.VISIBLE);
+                if (mBakingStep.getThumbnailURL() != null && !mBakingStep.getThumbnailURL().equals("")) {
+                    // Initialize the player.
+                    initializePlayer(Uri.parse(mBakingStep.getThumbnailURL()));
+                    binding.playerView.setVisibility(View.VISIBLE);
+                    binding.tvNoVideoMessage.setVisibility(View.GONE);
+                } else {
+                    binding.playerView.setVisibility(View.GONE);
+                    binding.tvNoVideoMessage.setVisibility(View.VISIBLE);
+                }
             }
-        }
-        binding.tvStepDescription.setText(mBakingStep.getDescription());
-        if (mBakingStep.getId() > 0) {
-            binding.bPreviousStep.setEnabled(true);
-            binding.bPreviousStep.setOnClickListener(this);
+            binding.tvStepDescription.setText(mBakingStep.getDescription());
+            if (mBakingStep.getId() > 0) {
+                binding.bPreviousStep.setEnabled(true);
+                binding.bPreviousStep.setOnClickListener(this);
+            } else {
+                binding.bPreviousStep.setEnabled(false);
+            }
+            if (mBakingStep.getId() < mBakingViewModel.getLastStepId()) {
+                binding.bNextStep.setEnabled(true);
+                binding.bNextStep.setOnClickListener(this);
+            } else {
+                binding.bNextStep.setEnabled(false);
+            }
         } else {
-            binding.bPreviousStep.setEnabled(false);
-        }
-        if (mBakingStep.getId() < mBakingViewModel.getLastStepId()) {
-            binding.bNextStep.setEnabled(true);
-            binding.bNextStep.setOnClickListener(this);
-        } else {
-            binding.bNextStep.setEnabled(false);
+            if (mBakingStep.getVideoURL() != null && !mBakingStep.getVideoURL().equals("")) {
+                if(mBakingActivity.getSupportActionBar() != null) {
+                    mBakingActivity.getSupportActionBar().hide();
+                }
+                // Initialize the player.
+                initializePlayer(Uri.parse(mBakingStep.getVideoURL()));
+                binding.playerView.setVisibility(View.VISIBLE);
+                if (binding.clBakingStep != null) {
+                    binding.clBakingStep.setVisibility(View.GONE);
+                }
+                binding.tvStepDescription.setVisibility(View.GONE);
+                binding.bPreviousStep.setVisibility(View.GONE);
+                binding.bNextStep.setVisibility(View.GONE);
+            } else {
+                if (mBakingStep.getThumbnailURL() != null && !mBakingStep.getThumbnailURL().equals("")) {
+                    if(mBakingActivity.getSupportActionBar() != null) {
+                        mBakingActivity.getSupportActionBar().hide();
+                    }
+                    // Initialize the player.
+                    initializePlayer(Uri.parse(mBakingStep.getThumbnailURL()));
+                    binding.playerView.setVisibility(View.VISIBLE);
+                    if (binding.clBakingStep != null) {
+                        binding.clBakingStep.setVisibility(View.GONE);
+                    }
+                    binding.tvStepDescription.setVisibility(View.GONE);
+                    binding.bPreviousStep.setVisibility(View.GONE);
+                    binding.bNextStep.setVisibility(View.GONE);
+                } else {
+                    if(mBakingActivity.getSupportActionBar() != null) {
+                        mBakingActivity.getSupportActionBar().show();
+                    }
+                    binding.tvStepDescription.setText(mBakingStep.getDescription());
+                    if (mBakingStep.getId() > 0) {
+                        binding.bPreviousStep.setEnabled(true);
+                        binding.bPreviousStep.setOnClickListener(this);
+                    } else {
+                        binding.bPreviousStep.setEnabled(false);
+                    }
+                    if (mBakingStep.getId() < mBakingViewModel.getLastStepId()) {
+                        binding.bNextStep.setEnabled(true);
+                        binding.bNextStep.setOnClickListener(this);
+                    } else {
+                        binding.bNextStep.setEnabled(false);
+                    }
+                    binding.playerView.setVisibility(View.GONE);
+                    if (binding.clBakingStep != null) {
+                        binding.clBakingStep.setVisibility(View.VISIBLE);
+                    }
+                    binding.tvStepDescription.setVisibility(View.VISIBLE);
+                    binding.bPreviousStep.setVisibility(View.VISIBLE);
+                    binding.bNextStep.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
 
@@ -281,6 +341,7 @@ public class BakingStepDetailFragment extends Fragment implements View.OnClickLi
             if (mExoPlayer != null) {
                 releasePlayer();
             }
+            mPlayerPosition = 0;
             updateUI();
         }
     }

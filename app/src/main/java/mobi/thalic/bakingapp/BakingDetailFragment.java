@@ -62,11 +62,7 @@ public class BakingDetailFragment extends Fragment {
         mBakingActivity = (BakingActivity) getActivity();
         mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
         mBakingActivity.setTitle(mBakingViewModel.getRecipeName());
-        BakingStepRecyclerViewAdapter bakingStepRecyclerViewAdapter = new BakingStepRecyclerViewAdapter(mListener);
-        // set recyclerview parameters
-        binding.rvDetailList.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.rvDetailList.setHasFixedSize(false);
-        binding.rvDetailList.setAdapter(bakingStepRecyclerViewAdapter);
+
 
         // set baking ingredients observer
         mBakingViewModel.getBakingIngredients().observe(getViewLifecycleOwner(), newBakingIngredients -> {
@@ -93,8 +89,12 @@ public class BakingDetailFragment extends Fragment {
         // set baking steps observer
         mBakingViewModel.getBakingSteps().observe(getViewLifecycleOwner(), newBakingSteps -> {
             if (newBakingSteps != null && newBakingSteps.size() > 0) {
-                // if data set new data on adapter
-                bakingStepRecyclerViewAdapter.setBakingSteps(newBakingSteps);
+                BakingStepRecyclerViewAdapter bakingStepRecyclerViewAdapter = new
+                        BakingStepRecyclerViewAdapter(mListener, newBakingSteps);
+                // set recyclerview parameters
+                binding.rvDetailList.setLayoutManager(new LinearLayoutManager(getContext()));
+                binding.rvDetailList.setHasFixedSize(false);
+                binding.rvDetailList.setAdapter(bakingStepRecyclerViewAdapter);
             }
         });
         return view;
