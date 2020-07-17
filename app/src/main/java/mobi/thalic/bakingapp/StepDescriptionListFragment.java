@@ -1,92 +1,65 @@
 package mobi.thalic.bakingapp;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import org.jetbrains.annotations.NotNull;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 import mobi.thalic.bakingapp.adapter.BakingStepRecyclerViewAdapter;
 import mobi.thalic.bakingapp.data.BakingStep;
-import mobi.thalic.bakingapp.databinding.FragmentBakingDetailListBinding;
+import mobi.thalic.bakingapp.databinding.FragmentBakingStepDetailBinding;
+import mobi.thalic.bakingapp.databinding.FragmentStepDescriptionListBinding;
 import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
 
 /**
- * A fragment representing a list of Items.
+ * A simple {@link Fragment} subclass.
+ * Use the {@link StepDescriptionListFragment#newInstance} factory method to
+ * create an instance of this fragment.
  */
-public class BakingDetailFragment extends Fragment {
+public class StepDescriptionListFragment extends Fragment {
+    // Declare constants
+    private static final String BAKING_STEP = "BakingStep";
     // Declare variables
-    FragmentBakingDetailListBinding binding;
-    BakingActivity mBakingActivity;
-    BakingViewModel mBakingViewModel;
-    private OnListFragmentInteractionListener mListener;
-    long mPlayerPosition;
+    private FragmentStepDescriptionListBinding binding;
+    private BakingActivity mBakingActivity;
+    private BakingViewModel mBakingViewModel;
+    private BakingDetailFragment.OnListFragmentInteractionListener mListener;
 
     /**
      * Default constructor
      */
-    public BakingDetailFragment() {
-    }
+    public StepDescriptionListFragment() {}
 
     /**
-     * Method to create an instance of baking detail fragment
-     * @return baking detail fragment
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment StepDescrptionListFragment.
      */
-    public static BakingDetailFragment newInstance() {
-        return new BakingDetailFragment();
+    public static StepDescriptionListFragment newInstance() {
+        return new StepDescriptionListFragment();
     }
 
-    /**
-     * Method to create view for baking detail fragment
-     * @param inflater to use to inflate view
-     * @param container of the view
-     * @param savedInstanceState for state issues
-     * @return view created
-     */
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // use view binding
-        binding = FragmentBakingDetailListBinding.inflate(inflater, container, false);
-        // set view
+        // Inflate the layout for this fragment
+        binding = FragmentStepDescriptionListBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         // initialize variables
         mBakingActivity = (BakingActivity) getActivity();
         mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
         mBakingActivity.setTitle(mBakingViewModel.getRecipeName());
-
-
-        // set baking ingredients observer
-        mBakingViewModel.getBakingIngredients().observe(getViewLifecycleOwner(), newBakingIngredients -> {
-            if (newBakingIngredients != null && newBakingIngredients.size() > 0) {
-                // create a string of the ingredients
-                StringBuilder temp = new StringBuilder();
-                for (int i = 0; i < newBakingIngredients.size(); i++) {
-                    if (temp.toString().equals("")) {
-                        temp = new StringBuilder(mBakingActivity.getString(R.string.baking_ingrediant_string,
-                                newBakingIngredients.get(i).getIngredient(),
-                                newBakingIngredients.get(i).getQuantity(),
-                                newBakingIngredients.get(i).getMeasure()));
-                    } else {
-                        temp.append("\n").append(mBakingActivity.getString(R.string.baking_ingrediant_string,
-                                newBakingIngredients.get(i).getIngredient(),
-                                newBakingIngredients.get(i).getQuantity(),
-                                newBakingIngredients.get(i).getMeasure()));
-                    }
-                }
-                // set ingredients text to string created
-                binding.tvIngredients.setText(temp.toString());
-            }
-        });
         // set baking steps observer
         mBakingViewModel.getBakingSteps().observe(getViewLifecycleOwner(), newBakingSteps -> {
             if (newBakingSteps != null && newBakingSteps.size() > 0) {

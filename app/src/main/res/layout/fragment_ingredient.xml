@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/baking_recipe_list_item_background"
+    tools:context=".IngredientFragment">
+
+    <TextView
+        android:id="@+id/tv_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:paddingBottom="@dimen/baking_ingredient_padding"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textSize="@dimen/baking_detail_text_size" />
+
+</ScrollView>
+

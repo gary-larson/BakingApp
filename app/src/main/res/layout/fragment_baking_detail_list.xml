@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/baking_ingredient_margin">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_third"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.334" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/baking_ingredient_margin"
-        android:layout_weight="1"
-        android:background="@drawable/baking_recipe_list_item_background" >
+        android:background="@drawable/baking_recipe_list_item_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_third" >
 
         <TextView
             android:id="@+id/tv_ingredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/baking_ingredient_padding"
             android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:paddingBottom="@dimen/baking_ingredient_padding"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textSize="@dimen/baking_detail_text_size"/>
+
     </ScrollView>
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rv_detail_list"
-    android:name="com.larsonapps.bakingapp.ui.main.BakingDetailFragment"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="2"
-    android:layout_marginLeft="@dimen/baking_ingredient_margin"
-    android:layout_marginRight="@dimen/baking_ingredient_margin"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="mobi.thalic.bakingapp.BakingDetailFragment"
-    tools:listitem="@layout/fragment_baking_detail_list_item" />
-
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_detail_list"
+        android:name="mobi.thalic.bakingapp.BakingDetailFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/baking_ingredient_margin"
+        android:layout_marginBottom="@dimen/baking_ingredient_margin"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_third"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:context="mobi.thalic.bakingapp.BakingDetailFragment"
+        tools:listitem="@layout/fragment_step_description_list_item" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
  */
 public class BakingActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener,
         BakingFragment.OnListFragmentInteractionListener,
-        BakingDetailFragment.OnListFragmentInteractionListener {
+        BakingDetailFragment.OnListFragmentInteractionListener,
+        StepNavigationFragment.OnListFragmentInteractionListener {
     // Declare constants
     private static final String BAKING_DETAIL_FRAGMENT = "BakingDetailFragment";
     private static final String BAKING_STEP_DETAIL_FRAGMENT = "BakingStepDetailFragment";
@@ -111,19 +113,13 @@ public class BakingActivity extends AppCompatActivity implements FragmentManager
                 .commit();
     }
 
-//    /**
-//     * Method to handle clicks of baking steps in the baking detail fragment recyclerview
-//     * @param bakingSteps list of baking step
-//     * @param position current position in list
-//     */
-//    @Override
-//    public void onListFragmentInteraction(List<BakingStep> bakingSteps, int position) {
-//        Intent intent = new Intent(getApplicationContext(), BakingStepDetailActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("Position", position);
-//        bundle.putParcelableArrayList("BakingStepList",
-//                (ArrayList<? extends Parcelable>) bakingSteps);
-//        intent.putExtras(bundle);
-//        startActivity(intent);
-//    }
+    /**
+     * Method to handle clicks of step navigation fragment buttons
+     * @param v view clicked
+     */
+    @Override
+    public void onListFragmentInteraction(View v) {
+        // TODO process step navigation fragment clicks
+        Toast.makeText(this, "Button clicked: " + v.getId(), Toast.LENGTH_LONG).show();
+    }
 }

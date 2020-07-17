@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class BakingViewModel extends AndroidViewModel {
     LiveData<BakingResult<List<BakingRecipeEntity>>> mBakingRecipes;
     LiveData<List<BakingIngredient>> mBakingIngredients;
     LiveData<List<BakingStep>> mBakingSteps;
+    MutableLiveData<String> mDescription;
+    MutableLiveData<BakingStep> mLiveDataBakingStep;
 
     /**
      * Constructor foe baking view model
@@ -35,6 +38,8 @@ public class BakingViewModel extends AndroidViewModel {
         super(application);
         this.mApplication = application;
         mBakingRepository = new BakingRepository(mApplication);
+        mDescription = new MutableLiveData<>();
+        mLiveDataBakingStep = new MutableLiveData<>();
     }
 
     /**
@@ -104,6 +109,10 @@ public class BakingViewModel extends AndroidViewModel {
         return mBakingStep;
     }
 
+    public LiveData<BakingStep> getLiveDataBakingStep() {
+        return mLiveDataBakingStep;
+    }
+
     /**
      * Method to get previous baking step from baking step list
      * @param stepId currently viewed
@@ -156,6 +165,8 @@ public class BakingViewModel extends AndroidViewModel {
      */
     public void setBakingStep(BakingStep bakingStep) {
         this.mBakingStep = bakingStep;
+        mLiveDataBakingStep.setValue(bakingStep);
+        mDescription.setValue(bakingStep.getDescription());
     }
 
     public int getLastStepId() {
@@ -163,5 +174,9 @@ public class BakingViewModel extends AndroidViewModel {
             return mBakingSteps.getValue().get(mBakingSteps.getValue().size() - 1).getId();
         }
         return 0;
+    }
+
+    public LiveData<String> getBakingStepDescription () {
+        return mDescription;
     }
 }

@@ -69,7 +69,9 @@
             android:layout_marginLeft="@dimen/baking_step_detail_margin"
             android:layout_marginRight="@dimen/baking_step_detail_margin"
             android:layout_marginTop="@dimen/baking_step_detail_margin"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"/>
+            android:paddingBottom="@dimen/baking_step_text_size"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:textSize="@dimen/baking_step_text_size"/>
 
     </ScrollView>
 

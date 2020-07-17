@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/baking_ingredient_margin">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontal_half"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_half"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_two_thirds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.667" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/baking_recipe_list_item_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_half"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/vertical_half">
+
+        <TextView
+            android:id="@+id/tv_ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:paddingBottom="@dimen/baking_ingredient_padding"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textSize="@dimen/baking_detail_text_size"/>
+
+    </ScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_detail_list"
+        android:name="mobi.thalic.bakingapp.BakingDetailFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/baking_ingredient_margin"
+        android:layout_marginBottom="@dimen/baking_ingredient_margin"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_half"
+        app:layout_constraintLeft_toRightOf="@id/vertical_half"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:context="mobi.thalic.bakingapp.BakingDetailFragment"
+        tools:listitem="@layout/fragment_step_description_list_item" />
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/playerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/baking_step_detail_margin"
+        android:layout_marginTop="@dimen/baking_step_detail_margin"
+        android:layout_marginRight="@dimen/baking_step_detail_margin"
+        android:layout_marginBottom="@dimen/baking_step_detail_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/vertical_two_thirds"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_half" />
+
+    <TextView
+        android:id="@+id/tv_no_video_message"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/baking_step_detail_margin"
+        android:layout_marginTop="@dimen/baking_step_detail_margin"
+        android:layout_marginRight="@dimen/baking_step_detail_margin"
+        android:layout_marginBottom="@dimen/baking_step_detail_margin"
+        android:background="@drawable/baking_recipe_list_item_background"
+        android:gravity="center"
+        android:text="@string/baking_step_no_video_message"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/vertical_two_thirds"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_half" />
+
+    <TextView
+        android:id="@+id/tv_step_description"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/baking_step_detail_margin"
+        android:layout_marginTop="@dimen/baking_step_detail_margin"
+        android:layout_marginRight="@dimen/baking_step_detail_margin"
+        android:layout_marginBottom="@dimen/baking_step_detail_margin"
+        android:paddingBottom="@dimen/baking_step_text_size"
+        android:background="@drawable/baking_recipe_list_item_background"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:textSize="@dimen/baking_step_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/vertical_two_thirds"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_half" />
+</androidx.constraintlayout.widget.ConstraintLayout>
