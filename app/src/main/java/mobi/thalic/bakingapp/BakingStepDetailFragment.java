@@ -1,6 +1,7 @@
 package mobi.thalic.bakingapp;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,11 +49,28 @@ public class BakingStepDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         // Declare variables
-        mobi.thalic.bakingapp.databinding.FragmentBakingStepDetailBinding binding = FragmentBakingStepDetailBinding.inflate(inflater, container, false);
+        mobi.thalic.bakingapp.databinding.FragmentBakingStepDetailBinding binding =
+                FragmentBakingStepDetailBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         // initialize variable
         mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
-// TODO fix landscape no video
+        mBakingViewModel.getLiveDataBakingStep().observe(getViewLifecycleOwner(), newBakingStep -> {
+            if (newBakingStep != null) {
+                if (getResources().getBoolean(R.bool.is_landscape) &&
+                        !getResources().getBoolean(R.bool.is_two_pane)) {
+                    if (TextUtils.isEmpty(newBakingStep.getVideoURL()) &&
+                            TextUtils.isEmpty(newBakingStep.getThumbnailURL())) {
+                        binding.fcvExoPlayer.setVisibility(View.GONE);
+                        binding.fcvStepDescription.setVisibility(View.VISIBLE);
+                        binding.fcvStepNavigation.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.fcvExoPlayer.setVisibility(View.VISIBLE);
+                        binding.fcvStepDescription.setVisibility((View.GONE));
+                        binding.fcvStepNavigation.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
         return view;
     }
 

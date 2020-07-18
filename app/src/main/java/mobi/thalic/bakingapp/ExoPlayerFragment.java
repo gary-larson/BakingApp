@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -96,60 +97,80 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
         initializeMediaSession();
         // set baking steps observer
         mBakingViewModel.getLiveDataBakingStep().observe(getViewLifecycleOwner(), newBakingStep -> {
+            // test for data
             if (newBakingStep != null) {
+                // initialize variables
                 mThumbnailUrl = newBakingStep.getThumbnailURL();
                 mVideoUrl = newBakingStep.getVideoURL();
+                // set title
                 mBakingActivity.setTitle(newBakingStep.getShortDescription());
-                updateUI();
+                // test for video url
+                if (mVideoUrl != null && !mVideoUrl.equals("")) {
+                    // Initialize the player.
+                    initializePlayer(Uri.parse(mVideoUrl));
+                    // set visibility
+                    binding.playerView.setVisibility(View.VISIBLE);
+                    binding.tvNoVideoMessage.setVisibility(View.GONE);
+                    // test for full screen mode
+                    checkFullScreen();
+                } else {
+                    if (mThumbnailUrl != null && !mThumbnailUrl.equals("")) {
+                        // Initialize the player.
+                        initializePlayer(Uri.parse(mThumbnailUrl));
+                        //set visibility
+                        binding.playerView.setVisibility(View.VISIBLE);
+                        binding.tvNoVideoMessage.setVisibility(View.GONE);
+                        // test for full screen
+                        checkFullScreen();
+                    } else {
+                        // test for full sceer without video
+                        if (getResources().getBoolean(R.bool.is_landscape) &&
+                                !getResources().getBoolean(R.bool.is_two_pane)) {
+                            // set visibility
+                            binding.playerView.setVisibility(View.GONE);
+                            binding.tvNoVideoMessage.setVisibility(View.GONE);
+                        } else {
+                            // set visibility
+                            binding.playerView.setVisibility(View.GONE);
+                            binding.tvNoVideoMessage.setVisibility(View.VISIBLE);
+                        }
+                        if (mBakingActivity != null && mBakingActivity.getSupportActionBar() != null) {
+                            // show title toolbar
+                            mBakingActivity.getSupportActionBar().show();
+                        }
+                    }
+                }
             }
         });
         return view;
     }
 
     /**
-     * Method to update the user interface
+     * Method to check for full screen and set visibility as appropriate
      */
-    private void updateUI() {
-        if (mVideoUrl != null && !mVideoUrl.equals("")) {
-            // Initialize the player.
-            initializePlayer(Uri.parse(mVideoUrl));
-            binding.playerView.setVisibility(View.VISIBLE);
-            binding.tvNoVideoMessage.setVisibility(View.GONE);
-            if (getResources().getBoolean(R.bool.is_landscape) &&
-                    !getResources().getBoolean((R.bool.is_two_pane))) {
-                if (mBakingActivity != null && mBakingActivity.getSupportActionBar() != null) {
-                    mBakingActivity.getSupportActionBar().hide();
-                }
-            }
-            else {
-                if (mBakingActivity != null && mBakingActivity.getSupportActionBar() != null) {
-                    mBakingActivity.getSupportActionBar().show();
-                }
+    private void checkFullScreen() {
+        if (getResources().getBoolean(R.bool.is_landscape) &&
+                !getResources().getBoolean((R.bool.is_two_pane))) {
+            if (mBakingActivity != null && mBakingActivity.getSupportActionBar() != null) {
+                // hide title toolbar
+                mBakingActivity.getSupportActionBar().hide();
             }
         } else {
-            if (mThumbnailUrl != null && !mThumbnailUrl.equals("")) {
-                // Initialize the player.
-                initializePlayer(Uri.parse(mThumbnailUrl));
-                binding.playerView.setVisibility(View.VISIBLE);
-                binding.tvNoVideoMessage.setVisibility(View.GONE);
-                if (getResources().getBoolean(R.bool.is_landscape) &&
-                        !getResources().getBoolean((R.bool.is_two_pane))) {
-                    if (mBakingActivity != null && mBakingActivity.getSupportActionBar() != null) {
-                        mBakingActivity.getSupportActionBar().hide();
-                    }
-                } else {
-                    if (mBakingActivity != null && mBakingActivity.getSupportActionBar() != null) {
-                        mBakingActivity.getSupportActionBar().show();
-                    }
-                }
-            } else {
-                binding.playerView.setVisibility(View.GONE);
-                binding.tvNoVideoMessage.setVisibility(View.VISIBLE);
-                if (mBakingActivity != null && mBakingActivity.getSupportActionBar() != null) {
-                    mBakingActivity.getSupportActionBar().show();
-                }
+            if (mBakingActivity != null && mBakingActivity.getSupportActionBar() != null) {
+                // show title toolbar
+                mBakingActivity.getSupportActionBar().show();
             }
         }
+    }
+
+    /**
+     * Method to save state
+     * @param outState to save
+     */
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(EXO_PLAYER_POSITION, mPlayerPosition);
     }
 
     /**
@@ -245,6 +266,9 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
         }
     }
 
+    /**
+     * Method to release resources
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -253,7 +277,7 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
         }
         mMediaSession.setActive(false);
     }
-
+    // required overrides for Exo player
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
 
@@ -277,6 +301,8 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
         } else if((playbackState == ExoPlayer.STATE_READY)){
             mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
                     mExoPlayer.getCurrentPosition(), 1f);
+        } else if (playbackState == ExoPlayer.STATE_ENDED){
+            mPlayerPosition = 0;
         }
         mMediaSession.setPlaybackState(mStateBuilder.build());
     }
@@ -295,6 +321,7 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
      * Media Session Callbacks, where all external clients control the player.
      */
     private class MySessionCallback extends MediaSessionCompat.Callback {
+        // required overrides for media session callback
         @Override
         public void onPlay() {
             mExoPlayer.setPlayWhenReady(true);
