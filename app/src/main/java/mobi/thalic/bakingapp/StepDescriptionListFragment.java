@@ -88,7 +88,8 @@ public class StepDescriptionListFragment extends Fragment {
         // Get activity
         BakingActivity bakingActivity = (BakingActivity) getActivity();
         // set title
-        if (bakingActivity != null && mBakingViewModel != null) {
+        if (bakingActivity != null && mBakingViewModel != null &&
+                !getResources().getBoolean(R.bool.is_two_pane)) {
             bakingActivity.setTitle(mBakingViewModel.getRecipeName());
         }
     }

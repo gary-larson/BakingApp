@@ -1,7 +1,6 @@
 package mobi.thalic.bakingapp;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -102,10 +101,14 @@ public class BakingActivity extends AppCompatActivity implements FragmentManager
           */
     @Override
     public void onListFragmentInteraction(BakingStep bakingStep) {
-        mBakingViewModel.setBakingStep(bakingStep);
-        mFragmentManager.beginTransaction()
-                .replace(binding.container.getId(), BakingStepDetailFragment.newInstance())
-                .addToBackStack(BAKING_STEP_DETAIL_FRAGMENT)
-                .commit();
+        if (!getResources().getBoolean(R.bool.is_two_pane)) {
+            mBakingViewModel.setBakingStep(bakingStep);
+            mFragmentManager.beginTransaction()
+                    .replace(binding.container.getId(), BakingStepDetailFragment.newInstance())
+                    .addToBackStack(BAKING_STEP_DETAIL_FRAGMENT)
+                    .commit();
+        } else {
+            mBakingViewModel.setBakingStep(bakingStep);
+        }
     }
 }

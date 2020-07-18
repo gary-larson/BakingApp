@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/baking_ingredient_margin">
@@ -21,50 +20,50 @@
         app:layout_constraintGuide_percent="0.334" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/horizontal_half"
+        android:id="@+id/horizontal_four_tenths"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.667" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcv_ingredients"
+        android:name="mobi.thalic.bakingapp.IngredientFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_third"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/vertical_third"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/horizontal_third"
-        android:name="mobi.thalic.bakingapp.IngredientFragment" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcv_step_description_list"
+        android:name="mobi.thalic.bakingapp.StepDescriptionListFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/vertical_third"
-        app:layout_constraintTop_toBottomOf="@id/horizontal_third"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:name="mobi.thalic.bakingapp.StepDescriptionListFragment" />
+        app:layout_constraintTop_toBottomOf="@id/horizontal_third" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcv_exo_player"
+        android:name="mobi.thalic.bakingapp.ExoPlayerFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontal_half"
+        app:layout_constraintBottom_toTopOf="@+id/horizontal_four_tenths"
         app:layout_constraintLeft_toRightOf="@id/vertical_third"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:name="mobi.thalic.bakingapp.ExoPlayerFragment" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcv_step_description"
+        android:name="mobi.thalic.bakingapp.StepDescriptionFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/vertical_third"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/horizontal_half"
-        android:name="mobi.thalic.bakingapp.StepDescriptionFragment" />
+        app:layout_constraintTop_toBottomOf="@id/horizontal_four_tenths" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:viewBindingIgnore="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/baking_ingredient_margin">
+    android:layout_margin="@dimen/baking_ingredient_margin"
+    tools:viewBindingIgnore="true">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/vertical_half"
@@ -16,18 +16,18 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcv_ingredients"
+        android:name="mobi.thalic.bakingapp.IngredientFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/vertical_half"
-        android:name="mobi.thalic.bakingapp.IngredientFragment" />
+        app:layout_constraintRight_toLeftOf="@id/vertical_half" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcv_step_description_list"
+        android:name="mobi.thalic.bakingapp.StepDescriptionListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintLeft_toRightOf="@id/vertical_half"
-        app:layout_constraintRight_toRightOf="parent"
-        android:name="mobi.thalic.bakingapp.StepDescriptionListFragment" />
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

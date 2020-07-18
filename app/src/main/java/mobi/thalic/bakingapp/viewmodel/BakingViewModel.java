@@ -109,32 +109,13 @@ public class BakingViewModel extends AndroidViewModel {
         return mBakingStep;
     }
 
+    /**
+     * Method to get live data baking steps
+     * @return live data baking steps
+     */
     public LiveData<BakingStep> getLiveDataBakingStep() {
         return mMutableLiveDataBakingStep;
     }
-
-//    /**
-//     * Method to get previous baking step from baking step list
-//     * @param stepId currently viewed
-//     * @return baking step or null if none found
-//     */
-//    public BakingStep getPreviousBakingStep(int stepId) {
-//        // Declare variables
-//        List<BakingStep> bakingSteps;
-//        // get baking step list
-//        bakingSteps = mLiveDataBakingSteps.getValue();
-//        // get baking step from list
-//        if (bakingSteps != null) {
-//            for (int i = 1; i < bakingSteps.size(); i++) {
-//                if (bakingSteps.get(i).getId() == stepId) {
-//                    // return baking step if found
-//                    return bakingSteps.get(i - 1);
-//                }
-//            }
-//        }
-//        // return null if step not found
-//        return null;
-//    }
 
     /**
      * Method to get previous baking step from baking step list
@@ -159,29 +140,6 @@ public class BakingViewModel extends AndroidViewModel {
             }
         }
     }
-
-//    /**
-//     * Method to set previous baking step from baking step list
-//     * @param stepId currently viewed
-//     * @return baking step or null if none found
-//     */
-//    public BakingStep getNextBakingStep(int stepId) {
-//        // Declare variables
-//        List<BakingStep> bakingSteps;
-//        // get baking step list
-//        bakingSteps = mLiveDataBakingSteps.getValue();
-//        // get baking step from list
-//        if (bakingSteps != null) {
-//            for (int i = 0; i < bakingSteps.size() - 1; i++) {
-//                if (bakingSteps.get(i).getId() == stepId) {
-//                    // return baking step if found
-//                    return bakingSteps.get(i + 1);
-//                }
-//            }
-//        }
-//        // return null if step not found
-//        return null;
-//    }
 
     /**
      * Method to set previous baking step from baking step list
@@ -217,6 +175,10 @@ public class BakingViewModel extends AndroidViewModel {
         mMutableLiveDataDescription.setValue(bakingStep.getDescription());
     }
 
+    /**
+     * Getter for baking steps last id
+     * @return baking steps last id
+     */
     public int getLastStepId() {
         if (mLiveDataBakingSteps.getValue() != null && mLiveDataBakingSteps.getValue().size() > 0) {
             return mLiveDataBakingSteps.getValue().get(mLiveDataBakingSteps.getValue().size() - 1).getId();
@@ -224,6 +186,10 @@ public class BakingViewModel extends AndroidViewModel {
         return 0;
     }
 
+    /**
+     * Method to get the current baking step description
+     * @return baking step description
+     */
     public LiveData<String> getBakingStepDescription () {
         return mMutableLiveDataDescription;
     }

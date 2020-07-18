@@ -59,32 +59,4 @@ public class BakingDetailFragment extends Fragment {
         mBakingActivity.setTitle(mBakingViewModel.getRecipeName());
         return view;
     }
-
-    /**
-     * Method to set up fragment
-     */
-    @Override
-    public void onPause() {
-        super.onPause();
-        // Get Activity
-        BakingActivity bakingActivity = (BakingActivity) getActivity();
-        if (bakingActivity != null) {
-            // reset title
-            bakingActivity.setTitle(getString(R.string.app_name));
-        }
-    }
-
-    /**
-     * Method to reset fragment
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Get activity
-        BakingActivity bakingActivity = (BakingActivity) getActivity();
-        // set title
-        if (bakingActivity != null && mBakingViewModel != null) {
-            bakingActivity.setTitle(mBakingViewModel.getRecipeName());
-        }
-    }
 }

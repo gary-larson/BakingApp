@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="?android:buttonBarStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/baking_step_detail_margin"
     android:layout_marginTop="@dimen/baking_step_detail_margin"
     android:layout_marginRight="@dimen/baking_step_detail_margin"
     android:layout_marginBottom="@dimen/baking_step_detail_margin"
-    style="?android:buttonBarStyle"
     tools:context=".StepNavigationFragment">
 
     <Button
         android:id="@+id/b_previous_step"
+        style="?android:buttonBarButtonStyle"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="@string/baking_step_previous_step"
-        style="?android:buttonBarButtonStyle"/>
+        android:text="@string/baking_step_previous_step" />
 
     <Button
         android:id="@+id/b_next_step"
+        style="?android:buttonBarButtonStyle"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="@string/baking_step_next_step"
-        style="?android:buttonBarButtonStyle" />
+        android:text="@string/baking_step_next_step" />
 
 </LinearLayout>

@@ -41,12 +41,14 @@ import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
 public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListener {
     // Declare constants
     private static final String EXO_PLAYER_POSITION = "PlayerPosition";
+    private static final String TITLE = "Title";
     private static final String TAG = ExoPlayerFragment.class.getSimpleName();
     // Declare variables
     private FragmentExoPlayerBinding binding;
     private BakingActivity mBakingActivity;
     BakingViewModel mBakingViewModel;
     private long mPlayerPosition;
+    private String mTitle;
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
     private static MediaSessionCompat mMediaSession;
@@ -78,6 +80,8 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
         mPlayerView = binding.playerView;
         if (savedInstanceState != null) {
             mPlayerPosition = savedInstanceState.getLong(EXO_PLAYER_POSITION);
+            mTitle = savedInstanceState.getString(TITLE);
+            mBakingActivity.setTitle(mTitle);
         } else {
             mPlayerPosition = 0;
         }
@@ -87,11 +91,22 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
         mBakingViewModel.getLiveDataBakingStep().observe(getViewLifecycleOwner(), newBakingStep -> {
             // test for data
             if (newBakingStep != null) {
+                if (mExoPlayer != null) {
+                    releasePlayer();
+                }
                 // initialize variables
                 mThumbnailUrl = newBakingStep.getThumbnailURL();
                 mVideoUrl = newBakingStep.getVideoURL();
+                if (getResources().getBoolean(R.bool.is_two_pane)) {
+                    // get title
+                    mTitle = mBakingViewModel.getRecipeName() + " - " +
+                            newBakingStep.getShortDescription();
+                } else {
+                    // get title
+                    mTitle = newBakingStep.getShortDescription();
+                }
                 // set title
-                mBakingActivity.setTitle(newBakingStep.getShortDescription());
+                mBakingActivity.setTitle(mTitle);
                 // test for video url
                 if (mVideoUrl != null && !mVideoUrl.equals("")) {
                     // Initialize the player.
@@ -159,6 +174,7 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(EXO_PLAYER_POSITION, mPlayerPosition);
+        outState.putString(TITLE, mTitle);
     }
 
     /**
