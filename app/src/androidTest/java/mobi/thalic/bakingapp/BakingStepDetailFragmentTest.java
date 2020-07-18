@@ -1,10 +1,14 @@
 package mobi.thalic.bakingapp;
 
+import android.content.Context;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -25,6 +29,9 @@ public class BakingStepDetailFragmentTest {
             "until evenly mixed.";
     private static final String STEP_2 = "Prep the cookie crust.";
     private static final String DISPLAYED_TEXT = "Nutella Pie";
+    private static final String TABLET_STEP_2 = DISPLAYED_TEXT + " - " + STEP_2;
+
+    private boolean isTwoPane;
 
     /**
      * Method to set create rule
@@ -32,6 +39,12 @@ public class BakingStepDetailFragmentTest {
     @Rule
     public ActivityScenarioRule<BakingActivity> mActivityTestRule = new
             ActivityScenarioRule<>(BakingActivity.class);
+
+    @Before
+    public void getTwoPaneMode() {
+        Context context = ApplicationProvider.getApplicationContext();
+        isTwoPane = context.getResources().getBoolean(R.bool.is_two_pane);
+    }
 
     @Test
     public void testStepInTextView () {
@@ -44,7 +57,12 @@ public class BakingStepDetailFragmentTest {
     public void testStepTitle() {
         onView(withText(DISPLAYED_TEXT)).perform(click());
         onView(withText(STEP_2)).perform(click());
-        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class))))
-                .check(matches(withText(STEP_2)));
+        if (isTwoPane) {
+            onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class))))
+                    .check(matches(withText(TABLET_STEP_2)));
+        } else {
+            onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class))))
+                    .check(matches(withText(STEP_2)));
+        }
     }
 }
