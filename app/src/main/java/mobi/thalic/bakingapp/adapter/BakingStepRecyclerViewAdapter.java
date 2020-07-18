@@ -1,37 +1,40 @@
 package mobi.thalic.bakingapp.adapter;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import mobi.thalic.bakingapp.BakingDetailFragment;
-import mobi.thalic.bakingapp.data.BakingStep;
-import mobi.thalic.bakingapp.databinding.FragmentBakingDetailListItemBinding;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import mobi.thalic.bakingapp.BakingDetailFragment;
+import mobi.thalic.bakingapp.R;
+import mobi.thalic.bakingapp.StepDescriptionListFragment;
+import mobi.thalic.bakingapp.data.BakingStep;
+import mobi.thalic.bakingapp.databinding.FragmentStepDescriptionListBinding;
+import mobi.thalic.bakingapp.databinding.FragmentStepDescriptionListItemBinding;
 
 /**
  * Class to handle adapter for baking step recyclerview.
  */
 public class BakingStepRecyclerViewAdapter extends RecyclerView.Adapter<BakingStepRecyclerViewAdapter.ViewHolder> {
     // Declare variables
-    FragmentBakingDetailListItemBinding binding;
+    FragmentStepDescriptionListItemBinding binding;
     Context context;
 
     private List<BakingStep> mBakingSteps;
-    private final BakingDetailFragment.OnListFragmentInteractionListener mListener;
+    private final StepDescriptionListFragment.OnListFragmentInteractionListener mListener;
 
     /**
      * Constructor to set listener
      * @param listener to set
      */
-    public BakingStepRecyclerViewAdapter(BakingDetailFragment.OnListFragmentInteractionListener
+    public BakingStepRecyclerViewAdapter(StepDescriptionListFragment.OnListFragmentInteractionListener
                                                  listener, List<BakingStep> bakingSteps) {
        mListener = listener;
        mBakingSteps = bakingSteps;
@@ -49,7 +52,7 @@ public class BakingStepRecyclerViewAdapter extends RecyclerView.Adapter<BakingSt
         // initialize variables
         context = parent.getContext();
         // set view binding
-        binding = FragmentBakingDetailListItemBinding.inflate(LayoutInflater.from(context), parent,
+        binding = FragmentStepDescriptionListItemBinding.inflate(LayoutInflater.from(context), parent,
                 false);
         // get view
         View view = binding.getRoot();

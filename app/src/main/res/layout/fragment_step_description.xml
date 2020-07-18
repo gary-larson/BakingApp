@@ -3,18 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/baking_step_detail_margin"
+    android:background="@drawable/baking_recipe_list_item_background"
     tools:context=".StepDescriptionFragment">
 
     <TextView
         android:id="@+id/tv_step_description"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/baking_step_detail_margin"
         android:layout_marginTop="@dimen/baking_step_detail_margin"
         android:layout_marginRight="@dimen/baking_step_detail_margin"
         android:layout_marginBottom="@dimen/baking_step_detail_margin"
-        android:paddingBottom="@dimen/baking_step_text_size"
-        android:background="@drawable/baking_recipe_list_item_background"
+        android:padding="@dimen/baking_step_description_padding"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:textSize="@dimen/baking_step_text_size" />
 

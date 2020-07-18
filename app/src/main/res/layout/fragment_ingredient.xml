@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/baking_ingredient_margin"
     android:background="@drawable/baking_recipe_list_item_background"
     tools:context=".IngredientFragment">
 

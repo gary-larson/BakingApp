@@ -24,11 +24,11 @@ public class BakingViewModel extends AndroidViewModel {
     private int mRecipeKey;
     private String mRecipeName;
     private BakingStep mBakingStep;
-    LiveData<BakingResult<List<BakingRecipeEntity>>> mBakingRecipes;
-    LiveData<List<BakingIngredient>> mBakingIngredients;
-    LiveData<List<BakingStep>> mBakingSteps;
-    MutableLiveData<String> mDescription;
-    MutableLiveData<BakingStep> mLiveDataBakingStep;
+    LiveData<BakingResult<List<BakingRecipeEntity>>> mLiveDataBakingRecipes;
+    LiveData<List<BakingIngredient>> mLiveDataBakingIngredients;
+    LiveData<List<BakingStep>> mLiveDataBakingSteps;
+    MutableLiveData<String> mMutableLiveDataDescription;
+    MutableLiveData<BakingStep> mMutableLiveDataBakingStep;
 
     /**
      * Constructor foe baking view model
@@ -38,8 +38,8 @@ public class BakingViewModel extends AndroidViewModel {
         super(application);
         this.mApplication = application;
         mBakingRepository = new BakingRepository(mApplication);
-        mDescription = new MutableLiveData<>();
-        mLiveDataBakingStep = new MutableLiveData<>();
+        mMutableLiveDataDescription = new MutableLiveData<>();
+        mMutableLiveDataBakingStep = new MutableLiveData<>();
     }
 
     /**
@@ -47,12 +47,12 @@ public class BakingViewModel extends AndroidViewModel {
      * @return results through live data
      */
     public LiveData<BakingResult<List<BakingRecipeEntity>>> getBakingRecipes() {
-        if (mBakingRecipes == null) {
+        if (mLiveDataBakingRecipes == null) {
             // get baking recipes from baking repository
-            mBakingRecipes = mBakingRepository.getBakingRecipes();
+            mLiveDataBakingRecipes = mBakingRepository.getBakingRecipes();
         }
         // return baking recipes through live data
-        return mBakingRecipes;
+        return mLiveDataBakingRecipes;
     }
 
     /**
@@ -60,13 +60,13 @@ public class BakingViewModel extends AndroidViewModel {
      * @return baking ingredients through live data
      */
     public LiveData<List<BakingIngredient>> getBakingIngredients() {
-        if (mBakingIngredients == null || mBakingIngredients.getValue() == null ||
-                mBakingIngredients.getValue().get(0).getRecipeKey() != mRecipeKey) {
+        if (mLiveDataBakingIngredients == null || mLiveDataBakingIngredients.getValue() == null ||
+                mLiveDataBakingIngredients.getValue().get(0).getRecipeKey() != mRecipeKey) {
             // get baking ingredients from baking repository
-            mBakingIngredients = mBakingRepository.getBakingIngredients(mRecipeKey);
+            mLiveDataBakingIngredients = mBakingRepository.getBakingIngredients(mRecipeKey);
         }
         // return baking ingredients through live data
-        return mBakingIngredients;
+        return mLiveDataBakingIngredients;
     }
 
     /**
@@ -74,13 +74,13 @@ public class BakingViewModel extends AndroidViewModel {
      * @return baking steps through live data
      */
     public LiveData<List<BakingStep>> getBakingSteps() {
-        if (mBakingSteps == null || mBakingSteps.getValue() == null ||
-                mBakingSteps.getValue().get(0).getStepKey() != mRecipeKey) {
+        if (mLiveDataBakingSteps == null || mLiveDataBakingSteps.getValue() == null ||
+                mLiveDataBakingSteps.getValue().get(0).getStepKey() != mRecipeKey) {
             // get baking steps from baking repository
-            mBakingSteps = mBakingRepository.getBakingSteps(mRecipeKey);
+            mLiveDataBakingSteps = mBakingRepository.getBakingSteps(mRecipeKey);
         }
         // return baking steps through live data
-        return mBakingSteps;
+        return mLiveDataBakingSteps;
     }
 
     /**
@@ -110,53 +110,101 @@ public class BakingViewModel extends AndroidViewModel {
     }
 
     public LiveData<BakingStep> getLiveDataBakingStep() {
-        return mLiveDataBakingStep;
+        return mMutableLiveDataBakingStep;
     }
+
+//    /**
+//     * Method to get previous baking step from baking step list
+//     * @param stepId currently viewed
+//     * @return baking step or null if none found
+//     */
+//    public BakingStep getPreviousBakingStep(int stepId) {
+//        // Declare variables
+//        List<BakingStep> bakingSteps;
+//        // get baking step list
+//        bakingSteps = mLiveDataBakingSteps.getValue();
+//        // get baking step from list
+//        if (bakingSteps != null) {
+//            for (int i = 1; i < bakingSteps.size(); i++) {
+//                if (bakingSteps.get(i).getId() == stepId) {
+//                    // return baking step if found
+//                    return bakingSteps.get(i - 1);
+//                }
+//            }
+//        }
+//        // return null if step not found
+//        return null;
+//    }
 
     /**
      * Method to get previous baking step from baking step list
      * @param stepId currently viewed
-     * @return baking step or null if none found
      */
-    public BakingStep getPreviousBakingStep(int stepId) {
+    public void setPreviousBakingStep(int stepId) {
         // Declare variables
         List<BakingStep> bakingSteps;
         // get baking step list
-        bakingSteps = mBakingSteps.getValue();
+        bakingSteps = mLiveDataBakingSteps.getValue();
         // get baking step from list
         if (bakingSteps != null) {
             for (int i = 1; i < bakingSteps.size(); i++) {
                 if (bakingSteps.get(i).getId() == stepId) {
-                    // return baking step if found
-                    return bakingSteps.get(i - 1);
+                    // set baking step if found
+                    BakingStep bakingStep = bakingSteps.get(i - 1);
+                    mMutableLiveDataBakingStep.setValue(bakingStep);
+                    mMutableLiveDataDescription.setValue(bakingStep.getDescription());
+                    mBakingStep = bakingStep;
+                    return;
                 }
             }
         }
-        // return null if step not found
-        return null;
     }
 
+//    /**
+//     * Method to set previous baking step from baking step list
+//     * @param stepId currently viewed
+//     * @return baking step or null if none found
+//     */
+//    public BakingStep getNextBakingStep(int stepId) {
+//        // Declare variables
+//        List<BakingStep> bakingSteps;
+//        // get baking step list
+//        bakingSteps = mLiveDataBakingSteps.getValue();
+//        // get baking step from list
+//        if (bakingSteps != null) {
+//            for (int i = 0; i < bakingSteps.size() - 1; i++) {
+//                if (bakingSteps.get(i).getId() == stepId) {
+//                    // return baking step if found
+//                    return bakingSteps.get(i + 1);
+//                }
+//            }
+//        }
+//        // return null if step not found
+//        return null;
+//    }
+
     /**
-     * Method to get previous baking step from baking step list
+     * Method to set previous baking step from baking step list
      * @param stepId currently viewed
-     * @return baking step or null if none found
      */
-    public BakingStep getNextBakingStep(int stepId) {
+    public void setNextBakingStep(int stepId) {
         // Declare variables
         List<BakingStep> bakingSteps;
         // get baking step list
-        bakingSteps = mBakingSteps.getValue();
+        bakingSteps = mLiveDataBakingSteps.getValue();
         // get baking step from list
         if (bakingSteps != null) {
             for (int i = 0; i < bakingSteps.size() - 1; i++) {
                 if (bakingSteps.get(i).getId() == stepId) {
-                    // return baking step if found
-                    return bakingSteps.get(i + 1);
+                    // set baking step if found
+                    BakingStep bakingStep = bakingSteps.get(i + 1);
+                    mMutableLiveDataBakingStep.setValue(bakingStep);
+                    mMutableLiveDataDescription.setValue(bakingStep.getDescription());
+                    mBakingStep = bakingStep;
+                    return;
                 }
             }
         }
-        // return null if step not found
-        return null;
     }
 
     /**
@@ -165,18 +213,18 @@ public class BakingViewModel extends AndroidViewModel {
      */
     public void setBakingStep(BakingStep bakingStep) {
         this.mBakingStep = bakingStep;
-        mLiveDataBakingStep.setValue(bakingStep);
-        mDescription.setValue(bakingStep.getDescription());
+        mMutableLiveDataBakingStep.setValue(bakingStep);
+        mMutableLiveDataDescription.setValue(bakingStep.getDescription());
     }
 
     public int getLastStepId() {
-        if (mBakingSteps.getValue() != null && mBakingSteps.getValue().size() > 0) {
-            return mBakingSteps.getValue().get(mBakingSteps.getValue().size() - 1).getId();
+        if (mLiveDataBakingSteps.getValue() != null && mLiveDataBakingSteps.getValue().size() > 0) {
+            return mLiveDataBakingSteps.getValue().get(mLiveDataBakingSteps.getValue().size() - 1).getId();
         }
         return 0;
     }
 
     public LiveData<String> getBakingStepDescription () {
-        return mDescription;
+        return mMutableLiveDataDescription;
     }
 }

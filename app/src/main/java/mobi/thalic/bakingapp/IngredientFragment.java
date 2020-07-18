@@ -3,6 +3,7 @@ package mobi.thalic.bakingapp;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,9 @@ public class IngredientFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentIngredientBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        // initialize view model
+        mBakingActivity = (BakingActivity) getActivity();
+        mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
         // set baking ingredients observer
         mBakingViewModel.getBakingIngredients().observe(getViewLifecycleOwner(), newBakingIngredients -> {
             if (newBakingIngredients != null && newBakingIngredients.size() > 0) {

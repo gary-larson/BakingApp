@@ -1,21 +1,15 @@
 package mobi.thalic.bakingapp;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.view.View;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import mobi.thalic.bakingapp.R;
 import mobi.thalic.bakingapp.data.BakingRecipeEntity;
 import mobi.thalic.bakingapp.data.BakingStep;
+import mobi.thalic.bakingapp.databinding.ActivityBakingBinding;
 import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
 
 /**
@@ -23,14 +17,15 @@ import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
  */
 public class BakingActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener,
         BakingFragment.OnListFragmentInteractionListener,
-        BakingDetailFragment.OnListFragmentInteractionListener,
-        StepNavigationFragment.OnListFragmentInteractionListener {
+        StepDescriptionListFragment.OnListFragmentInteractionListener {
     // Declare constants
     private static final String BAKING_DETAIL_FRAGMENT = "BakingDetailFragment";
     private static final String BAKING_STEP_DETAIL_FRAGMENT = "BakingStepDetailFragment";
     // Declare variables
     BakingViewModel mBakingViewModel;
+    ActivityBakingBinding binding;
     FragmentManager mFragmentManager;
+
 
     /**
      * Method to create activity
@@ -39,8 +34,10 @@ public class BakingActivity extends AppCompatActivity implements FragmentManager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // enable view binding
+        binding = ActivityBakingBinding.inflate(getLayoutInflater());
         // set content view
-        setContentView(R.layout.activity_baking);
+        setContentView(binding.getRoot());
         // get fragment manager
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.addOnBackStackChangedListener(this);
@@ -93,9 +90,8 @@ public class BakingActivity extends AppCompatActivity implements FragmentManager
         // set recipe key and name in baking view model
         mBakingViewModel.setRecipeKey(bakingRecipe.getId());
         mBakingViewModel.setRecipeName(bakingRecipe.getName());
-        // replace fragment with baking detail fragment
         mFragmentManager.beginTransaction()
-                .replace(R.id.container, BakingDetailFragment.newInstance())
+                .replace(binding.container.getId(), BakingDetailFragment.newInstance())
                 .addToBackStack(BAKING_DETAIL_FRAGMENT)
                 .commit();
     }
@@ -108,18 +104,8 @@ public class BakingActivity extends AppCompatActivity implements FragmentManager
     public void onListFragmentInteraction(BakingStep bakingStep) {
         mBakingViewModel.setBakingStep(bakingStep);
         mFragmentManager.beginTransaction()
-                .replace(R.id.container, BakingStepDetailFragment.newInstance())
+                .replace(binding.container.getId(), BakingStepDetailFragment.newInstance())
                 .addToBackStack(BAKING_STEP_DETAIL_FRAGMENT)
                 .commit();
-    }
-
-    /**
-     * Method to handle clicks of step navigation fragment buttons
-     * @param v view clicked
-     */
-    @Override
-    public void onListFragmentInteraction(View v) {
-        // TODO process step navigation fragment clicks
-        Toast.makeText(this, "Button clicked: " + v.getId(), Toast.LENGTH_LONG).show();
     }
 }

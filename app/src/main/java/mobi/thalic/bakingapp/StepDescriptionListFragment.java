@@ -33,7 +33,7 @@ public class StepDescriptionListFragment extends Fragment {
     private FragmentStepDescriptionListBinding binding;
     private BakingActivity mBakingActivity;
     private BakingViewModel mBakingViewModel;
-    private BakingDetailFragment.OnListFragmentInteractionListener mListener;
+    private OnListFragmentInteractionListener mListener;
 
     /**
      * Default constructor
@@ -109,8 +109,8 @@ public class StepDescriptionListFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof BakingDetailFragment.OnListFragmentInteractionListener) {
-            mListener = (BakingDetailFragment.OnListFragmentInteractionListener) context;
+        if (context instanceof StepDescriptionListFragment.OnListFragmentInteractionListener) {
+            mListener = (StepDescriptionListFragment.OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() );
         }

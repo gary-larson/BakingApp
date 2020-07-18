@@ -12,16 +12,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import org.jetbrains.annotations.NotNull;
 
+import mobi.thalic.bakingapp.data.BakingStep;
 import mobi.thalic.bakingapp.databinding.FragmentStepNavigationBinding;
 import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
 
 /**
  * Class to handle Step navigation fragment
  */
-public class StepNavigationFragment extends Fragment {
+public class StepNavigationFragment extends Fragment implements View.OnClickListener {
     // Declare variables
     private FragmentStepNavigationBinding binding;
-    private OnListFragmentInteractionListener mListener;
     BakingViewModel mBakingViewModel;
 
     /**
@@ -55,55 +55,33 @@ public class StepNavigationFragment extends Fragment {
         mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
         if (mBakingViewModel.getBakingStep().getId() > 0) {
             binding.bPreviousStep.setEnabled(true);
-            binding.bPreviousStep.setOnClickListener((v -> {
-                if (mListener != null) {
-                    mListener.onListFragmentInteraction(binding.bPreviousStep);
-                }
-            }));
         } else {
             binding.bPreviousStep.setEnabled(false);
         }
         if (mBakingViewModel.getBakingStep().getId() < mBakingViewModel.getLastStepId()) {
             binding.bNextStep.setEnabled(true);
-            binding.bNextStep.setOnClickListener(v -> {
-                if (mListener != null) {
-                    mListener.onListFragmentInteraction(binding.bNextStep);
-                }
-            });
         } else {
             binding.bNextStep.setEnabled(false);
         }
+        binding.bPreviousStep.setOnClickListener(this);
+        binding.bNextStep.setOnClickListener(this);
         return view;
     }
 
-    /**
-     * Method that initializes the listener
-     * @param context to use
-     */
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof BakingFragment.OnListFragmentInteractionListener) {
-            mListener = (StepNavigationFragment.OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString() );
+    public void onClick(View v) {
+        // Declare variables
+        int viewId = v.getId();
+        int bakingStepId = mBakingViewModel.getBakingStep().getId();
+
+        // get baking step to change to
+        if (viewId == binding.bPreviousStep.getId()) {
+            mBakingViewModel.setPreviousBakingStep(bakingStepId);
+        } else if (viewId == binding.bNextStep.getId()) {
+            mBakingViewModel.setNextBakingStep(bakingStepId);
         }
-    }
-
-    /**
-     * Method to remove listener
-     */
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * Interface for the click listener
-     */
-    public interface OnListFragmentInteractionListener {
-        // set arguments type and name
-        void onListFragmentInteraction(View v);
+        bakingStepId = mBakingViewModel.getBakingStep().getId();
+        binding.bPreviousStep.setEnabled(bakingStepId > 0);
+        binding.bNextStep.setEnabled(bakingStepId < mBakingViewModel.getLastStepId());
     }
 }
