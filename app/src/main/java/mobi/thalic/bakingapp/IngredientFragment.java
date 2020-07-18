@@ -15,9 +15,7 @@ import mobi.thalic.bakingapp.databinding.FragmentIngredientBinding;
 import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link IngredientFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Class to handle ingredient fragment
  */
 public class IngredientFragment extends Fragment {
     // Declare variables
@@ -31,15 +29,12 @@ public class IngredientFragment extends Fragment {
     public IngredientFragment() {}
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment IngredientFragment.
+     * Method to create and inflate ingredient fragment
+     * @param inflater to use
+     * @param container of the view
+     * @param savedInstanceState to handle state changes
+     * @return created view
      */
-    public static IngredientFragment newInstance() {
-        return new IngredientFragment();
-    }
-
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

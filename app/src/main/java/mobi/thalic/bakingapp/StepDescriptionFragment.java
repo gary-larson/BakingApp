@@ -1,29 +1,20 @@
 package mobi.thalic.bakingapp;
 
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import org.jetbrains.annotations.NotNull;
 
-import mobi.thalic.bakingapp.adapter.BakingStepRecyclerViewAdapter;
-import mobi.thalic.bakingapp.data.BakingStep;
 import mobi.thalic.bakingapp.databinding.FragmentStepDescriptionBinding;
 import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link StepDescriptionFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Class to handle step description fragment
  */
 public class StepDescriptionFragment extends Fragment {
     // Declare variables
@@ -36,15 +27,12 @@ public class StepDescriptionFragment extends Fragment {
     public StepDescriptionFragment() {}
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment StepDescriptionFragment.
+     * Method to create and inflate step description fragment
+     * @param inflater to use
+     * @param container of the view
+     * @param savedInstanceState for state changes
+     * @return created view
      */
-    public static StepDescriptionFragment newInstance() {
-        return new StepDescriptionFragment();
-    }
-
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,7 +42,7 @@ public class StepDescriptionFragment extends Fragment {
 
         // initialize variables
         mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
-        // set baking steps observer
+        // set baking step description observer
         mBakingViewModel.getBakingStepDescription().observe(getViewLifecycleOwner(), newDescription -> {
             if (newDescription != null) {
                 binding.tvStepDescription.setText(newDescription);

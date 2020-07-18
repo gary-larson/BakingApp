@@ -1,37 +1,29 @@
 package mobi.thalic.bakingapp;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import org.jetbrains.annotations.NotNull;
 
 import mobi.thalic.bakingapp.adapter.BakingStepRecyclerViewAdapter;
 import mobi.thalic.bakingapp.data.BakingStep;
-import mobi.thalic.bakingapp.databinding.FragmentBakingStepDetailBinding;
 import mobi.thalic.bakingapp.databinding.FragmentStepDescriptionListBinding;
 import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link StepDescriptionListFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Class to handle step description list fragment
  */
 public class StepDescriptionListFragment extends Fragment {
-    // Declare constants
-    private static final String BAKING_STEP = "BakingStep";
     // Declare variables
     private FragmentStepDescriptionListBinding binding;
-    private BakingActivity mBakingActivity;
     private BakingViewModel mBakingViewModel;
     private OnListFragmentInteractionListener mListener;
 
@@ -41,15 +33,12 @@ public class StepDescriptionListFragment extends Fragment {
     public StepDescriptionListFragment() {}
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment StepDescrptionListFragment.
+     * Method to create and inflate step description list fragment
+     * @param inflater to use
+     * @param container for view
+     * @param savedInstanceState to handle state changes
+     * @return created view
      */
-    public static StepDescriptionListFragment newInstance() {
-        return new StepDescriptionListFragment();
-    }
-
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,9 +46,11 @@ public class StepDescriptionListFragment extends Fragment {
         binding = FragmentStepDescriptionListBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         // initialize variables
-        mBakingActivity = (BakingActivity) getActivity();
+        BakingActivity mBakingActivity = (BakingActivity) getActivity();
         mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
-        mBakingActivity.setTitle(mBakingViewModel.getRecipeName());
+        if (mBakingActivity != null) {
+            mBakingActivity.setTitle(mBakingViewModel.getRecipeName());
+        }
         // set baking steps observer
         mBakingViewModel.getBakingSteps().observe(getViewLifecycleOwner(), newBakingSteps -> {
             if (newBakingSteps != null && newBakingSteps.size() > 0) {

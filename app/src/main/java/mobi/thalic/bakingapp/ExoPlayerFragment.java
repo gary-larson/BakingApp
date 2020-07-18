@@ -36,9 +36,7 @@ import mobi.thalic.bakingapp.databinding.FragmentExoPlayerBinding;
 import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ExoPlayerFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Class to handle exo player fragment
  */
 public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListener {
     // Declare constants
@@ -60,16 +58,6 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
      * Default constructor
      */
     public ExoPlayerFragment() {}
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ExoPlayerFragment.
-     */
-    public static ExoPlayerFragment newInstance() {
-        return new ExoPlayerFragment();
-    }
 
     /**
      * Method to create and inflate exoPlayer fragment

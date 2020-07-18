@@ -27,8 +27,6 @@ import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
 public class BakingFragment extends Fragment {
     // Declare variables
     private FragmentBakingListBinding binding;
-    private BakingViewModel mBakingViewModel;
-    private BakingActivity mBakingActivity;
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -55,8 +53,7 @@ public class BakingFragment extends Fragment {
         // get the view
         View mView = binding.getRoot();
         // initialize variables
-        mBakingActivity = (BakingActivity) getActivity();
-        mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
+        BakingViewModel mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
         BakingRecipeRecyclerViewAdapter bakingAdapter = new BakingRecipeRecyclerViewAdapter(mListener);
         // sget column count for the recyclerview
         int mColumnCount = getResources().getInteger(R.integer.number_of_horizontal_columns);

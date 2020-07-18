@@ -1,19 +1,15 @@
 package mobi.thalic.bakingapp;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.jetbrains.annotations.NotNull;
 
-import mobi.thalic.bakingapp.data.BakingStep;
 import mobi.thalic.bakingapp.databinding.FragmentStepNavigationBinding;
 import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
 
@@ -29,16 +25,6 @@ public class StepNavigationFragment extends Fragment implements View.OnClickList
      * Default Constructor
      */
     public StepNavigationFragment() {}
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment.
-     *
-     * @return A new instance of fragment StepNavigationFragment.
-     */
-    public static StepNavigationFragment newInstance() {
-        return new StepNavigationFragment();
-    }
 
     /**
      * Method to create and inflate step navigation fragment
@@ -69,6 +55,10 @@ public class StepNavigationFragment extends Fragment implements View.OnClickList
         return view;
     }
 
+    /**
+     * Method to handle clicks
+     * @param v view that was clicked
+     */
     @Override
     public void onClick(View v) {
         // Declare variables
@@ -81,7 +71,9 @@ public class StepNavigationFragment extends Fragment implements View.OnClickList
         } else if (viewId == binding.bNextStep.getId()) {
             mBakingViewModel.setNextBakingStep(bakingStepId);
         }
+        // update baking step
         bakingStepId = mBakingViewModel.getBakingStep().getId();
+        // set whether buttons are enabled or not
         binding.bPreviousStep.setEnabled(bakingStepId > 0);
         binding.bNextStep.setEnabled(bakingStepId < mBakingViewModel.getLastStepId());
     }
