@@ -280,6 +280,7 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
             releasePlayer();
         }
         mMediaSession.setActive(false);
+        binding = null;
     }
     // required overrides for Exo player
     @Override

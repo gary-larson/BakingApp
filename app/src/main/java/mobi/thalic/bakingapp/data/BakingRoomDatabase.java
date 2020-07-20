@@ -26,7 +26,7 @@ public abstract class BakingRoomDatabase extends RoomDatabase {
     // set number of threads
     private static final int NUMBER_OF_THREADS = 4;
     // create executor
-    static final ExecutorService databaseWriteExecutor =
+    public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     /**
@@ -34,7 +34,7 @@ public abstract class BakingRoomDatabase extends RoomDatabase {
      * @param context to use for database
      * @return the database instance
      */
-    static BakingRoomDatabase getDatabase(final Context context) {
+    public static BakingRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (BakingRoomDatabase.class) {
                 if (INSTANCE == null) {

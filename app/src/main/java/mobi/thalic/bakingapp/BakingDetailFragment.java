@@ -59,4 +59,13 @@ public class BakingDetailFragment extends Fragment {
         mBakingActivity.setTitle(mBakingViewModel.getRecipeName());
         return view;
     }
+
+    /**
+     * Method to cleanup binding
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }

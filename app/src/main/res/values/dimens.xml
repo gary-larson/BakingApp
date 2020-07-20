@@ -15,4 +15,6 @@
     <dimen name="baking_step_detail_margin">8dp</dimen>
     <dimen name="baking_detail_text_size">24sp</dimen>
     <dimen name="baking_step_text_size">28sp</dimen>
+    <dimen name="widget_padding">8dp</dimen>
+    <dimen name="widget_margin">8dp</dimen>
 </resources>

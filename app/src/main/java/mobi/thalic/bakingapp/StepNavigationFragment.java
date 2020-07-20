@@ -77,4 +77,13 @@ public class StepNavigationFragment extends Fragment implements View.OnClickList
         binding.bPreviousStep.setEnabled(bakingStepId > 0);
         binding.bNextStep.setEnabled(bakingStepId < mBakingViewModel.getLastStepId());
     }
+
+    /**
+     * Method to cleanup binding
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }

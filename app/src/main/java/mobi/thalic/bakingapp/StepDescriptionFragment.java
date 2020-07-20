@@ -50,4 +50,13 @@ public class StepDescriptionFragment extends Fragment {
         });
         return view;
     }
+
+    /**
+     * Method to cleanup binding
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }

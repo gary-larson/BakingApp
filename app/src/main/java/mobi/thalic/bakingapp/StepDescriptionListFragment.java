@@ -118,6 +118,15 @@ public class StepDescriptionListFragment extends Fragment {
     }
 
     /**
+     * Method to cleanup binding
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
+
+    /**
      * Interface for the click listener
      */
     public interface OnListFragmentInteractionListener {

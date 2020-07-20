@@ -26,7 +26,6 @@ interface RepositoryCallback<T> {
 public class BakingRepository {
     // Declare Variables
     private final BakingExecutor executor;
-    private final Application mApplication;
     private final String mErrorMessage;
     private MutableLiveData<BakingResult<List<BakingRecipeEntity>>> mBakingResult;
     private MutableLiveData<List<BakingIngredient>> mBakingIngredients;
@@ -36,8 +35,7 @@ public class BakingRepository {
 
     public BakingRepository (Application application) {
         // Initialize variables
-        mApplication = application;
-        mErrorMessage = mApplication.getString(R.string.error_message);
+        mErrorMessage = application.getString(R.string.error_message);
         executor = new BakingExecutor();
         BakingRoomDatabase bakingRoomDatabase = BakingRoomDatabase.getDatabase(application);
         mBakingDao = bakingRoomDatabase.bakingDao();
@@ -153,7 +151,7 @@ public class BakingRepository {
         BakingRoomDatabase.databaseWriteExecutor.execute(() -> {
             // get Baking Ingredients from database
             List<BakingIngredient> bakingIngredients = mBakingDao.getAllBakingIngredients(recipeKey);
-            // enter results through lice data
+            // enter results through live data
             mBakingIngredients.postValue(bakingIngredients);
         });
         return mBakingIngredients;
@@ -161,7 +159,7 @@ public class BakingRepository {
 
     public LiveData<List<BakingStep>> getBakingSteps(int recipeKey) {
 
-        // Start Batabase executor
+        // Start Database executor
         BakingRoomDatabase.databaseWriteExecutor.execute(() -> {
             // get baking steps from database
             List<BakingStep> bakingSteps = mBakingDao.getAllBakingSteps(recipeKey);
@@ -170,4 +168,42 @@ public class BakingRepository {
         });
         return mBakingSteps;
     }
+
+//    /**
+//     * Getter for baking widget recipe list
+//     * @return baking widget recipe list
+//     */
+//    public List<BakingWidgetRecipe> getBakingWidgetRecipeList() {
+//        retrieveBakingWidgetList(bakingResult -> {
+//            if (bakingResult instanceof BakingResult.Success) {
+//                List<BakingWidgetRecipe> bakingWidgetRecipeList = ((BakingResult.Success<List<BakingWidgetRecipe>>) bakingResult).data;
+//                return bakingWidgetRecipeList;
+//            }
+//        });
+//        return baking;
+//    }
+//
+//    public void retrieveBakingWidgetList (
+//            final RepositoryCallback<List<BakingWidgetRecipe>> callback
+//    ) {
+//        BakingRoomDatabase.databaseWriteExecutor.execute(() -> {
+//            List<BakingWidgetRecipe> bakingWidgetRecipeList = new ArrayList<>();
+//            List<BakingRecipeEntity> bakingRecipeEntityList = mBakingDao.getAllBakingRecipes();
+//            if (bakingRecipeEntityList.size() == 0) {
+//                BakingResult<List<BakingWidgetRecipe>> errorResult =
+//                        new BakingResult.Error("No Recipes Available.");
+//                callback.onComplete(errorResult);
+//            }
+//            for (int i = 0; i < bakingRecipeEntityList.size(); i++) {
+//                BakingWidgetRecipe bakingWidgetRecipe = new BakingWidgetRecipe();
+//                bakingWidgetRecipe.setRecipeName(bakingRecipeEntityList.get(i).getName());
+//                bakingWidgetRecipe.setBakingIngredientList(
+//                        mBakingDao.getAllBakingIngredients(bakingRecipeEntityList.get(i).getId()));
+//                bakingWidgetRecipeList.add(bakingWidgetRecipe);
+//            }
+//            BakingResult<List<BakingWidgetRecipe>> result =
+//                    new BakingResult.Success<>(bakingWidgetRecipeList);
+//            callback.onComplete(result);
+//        });
+//    }
 }

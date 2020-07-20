@@ -51,12 +51,12 @@ public class IngredientFragment extends Fragment {
                 StringBuilder temp = new StringBuilder();
                 for (int i = 0; i < newBakingIngredients.size(); i++) {
                     if (temp.toString().equals("")) {
-                        temp = new StringBuilder(mBakingActivity.getString(R.string.baking_ingrediant_string,
+                        temp = new StringBuilder(mBakingActivity.getString(R.string.baking_ingredient_string,
                                 newBakingIngredients.get(i).getIngredient(),
                                 newBakingIngredients.get(i).getQuantity(),
                                 newBakingIngredients.get(i).getMeasure()));
                     } else {
-                        temp.append("\n").append(mBakingActivity.getString(R.string.baking_ingrediant_string,
+                        temp.append("\n").append(mBakingActivity.getString(R.string.baking_ingredient_string,
                                 newBakingIngredients.get(i).getIngredient(),
                                 newBakingIngredients.get(i).getQuantity(),
                                 newBakingIngredients.get(i).getMeasure()));
@@ -67,5 +67,14 @@ public class IngredientFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    /**
+     * Method to cleanup binding
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }
