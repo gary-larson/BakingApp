@@ -280,7 +280,7 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
     public void onPause() {
         super.onPause();
         if (mExoPlayer != null) {
-            mExoPlayer.setPlayWhenReady(false);
+            mPlayWhenReady = mExoPlayer.getPlayWhenReady();
             mPlayerPosition = mExoPlayer.getCurrentPosition();
         }
         if (Util.SDK_INT <= 23) {
@@ -298,7 +298,7 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
             if (mPlayerPosition > 0) {
                 mExoPlayer.seekTo(mPlayerPosition);
             }
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(mPlayWhenReady);
         }
         if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
             if (!TextUtils.isEmpty(mUrl)) {
