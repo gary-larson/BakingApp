@@ -12,11 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import mobi.thalic.bakingapp.BakingDetailFragment;
-import mobi.thalic.bakingapp.R;
 import mobi.thalic.bakingapp.StepDescriptionListFragment;
 import mobi.thalic.bakingapp.data.BakingStep;
-import mobi.thalic.bakingapp.databinding.FragmentStepDescriptionListBinding;
 import mobi.thalic.bakingapp.databinding.FragmentStepDescriptionListItemBinding;
 
 /**

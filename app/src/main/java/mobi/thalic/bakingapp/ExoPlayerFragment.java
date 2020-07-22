@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,21 +41,24 @@ import mobi.thalic.bakingapp.viewmodel.BakingViewModel;
  */
 public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListener {
     // Declare constants
+    private static final String EXO_PLAYER_PLAY_WHEN_READY = "PlayWhenReady";
     private static final String EXO_PLAYER_POSITION = "PlayerPosition";
+    private static final String URL = "url";
     private static final String TITLE = "Title";
     private static final String TAG = ExoPlayerFragment.class.getSimpleName();
     // Declare variables
     private FragmentExoPlayerBinding binding;
     private BakingActivity mBakingActivity;
     BakingViewModel mBakingViewModel;
+    private boolean mPlayWhenReady;
     private long mPlayerPosition;
     private String mTitle;
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
     private static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
-    private String mVideoUrl;
-    private String mThumbnailUrl;
+    private String mUrl;
+
 
     /**
      * Default constructor
@@ -78,12 +82,17 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
         // initialize variables
         mBakingViewModel = new ViewModelProvider(requireActivity()).get(BakingViewModel.class);
         mPlayerView = binding.playerView;
+        mUrl = "";
         if (savedInstanceState != null) {
+            mPlayWhenReady = savedInstanceState.getBoolean(EXO_PLAYER_PLAY_WHEN_READY);
             mPlayerPosition = savedInstanceState.getLong(EXO_PLAYER_POSITION);
+            mUrl = savedInstanceState.getString((URL));
             mTitle = savedInstanceState.getString(TITLE);
             mBakingActivity.setTitle(mTitle);
+
         } else {
             mPlayerPosition = 0;
+            mPlayWhenReady = true;
         }
         // Initialize the Media Session.
         initializeMediaSession();
@@ -95,8 +104,26 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
                     releasePlayer();
                 }
                 // initialize variables
-                mThumbnailUrl = newBakingStep.getThumbnailURL();
-                mVideoUrl = newBakingStep.getVideoURL();
+                String url = "";
+                // get url if one exists
+                if (!TextUtils.isEmpty(newBakingStep.getVideoURL())) {
+                    url = newBakingStep.getVideoURL();
+                } else if (!TextUtils.isEmpty(newBakingStep.getThumbnailURL())) {
+                    url = newBakingStep.getThumbnailURL();
+                }
+                // test for url
+                if (!TextUtils.isEmpty(url)) {
+                    // test if it is same as last time created
+                    if (!mUrl.equals(url)) {
+                        mUrl = url;
+                        mPlayerPosition = 0;
+                    }
+                } else {
+                    // reset if no url
+                    mUrl = "";
+                    mPlayerPosition = 0;
+                }
+                // check for two pane
                 if (getResources().getBoolean(R.bool.is_two_pane)) {
                     // get title
                     mTitle = mBakingViewModel.getRecipeName() + " - " +
@@ -108,39 +135,29 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
                 // set title
                 mBakingActivity.setTitle(mTitle);
                 // test for video url
-                if (mVideoUrl != null && !mVideoUrl.equals("")) {
+                if (!TextUtils.isEmpty(mUrl)) {
                     // Initialize the player.
-                    initializePlayer(Uri.parse(mVideoUrl));
+                    initializePlayer(Uri.parse(mUrl));
                     // set visibility
                     binding.playerView.setVisibility(View.VISIBLE);
                     binding.tvNoVideoMessage.setVisibility(View.GONE);
                     // test for full screen mode
                     checkFullScreen();
                 } else {
-                    if (mThumbnailUrl != null && !mThumbnailUrl.equals("")) {
-                        // Initialize the player.
-                        initializePlayer(Uri.parse(mThumbnailUrl));
-                        //set visibility
-                        binding.playerView.setVisibility(View.VISIBLE);
+                    // test for full sceer without video
+                    if (getResources().getBoolean(R.bool.is_landscape) &&
+                            !getResources().getBoolean(R.bool.is_two_pane)) {
+                        // set visibility
+                        binding.playerView.setVisibility(View.GONE);
                         binding.tvNoVideoMessage.setVisibility(View.GONE);
-                        // test for full screen
-                        checkFullScreen();
                     } else {
-                        // test for full sceer without video
-                        if (getResources().getBoolean(R.bool.is_landscape) &&
-                                !getResources().getBoolean(R.bool.is_two_pane)) {
-                            // set visibility
-                            binding.playerView.setVisibility(View.GONE);
-                            binding.tvNoVideoMessage.setVisibility(View.GONE);
-                        } else {
-                            // set visibility
-                            binding.playerView.setVisibility(View.GONE);
-                            binding.tvNoVideoMessage.setVisibility(View.VISIBLE);
-                        }
-                        if (mBakingActivity != null && mBakingActivity.getSupportActionBar() != null) {
-                            // show title toolbar
-                            mBakingActivity.getSupportActionBar().show();
-                        }
+                        // set visibility
+                        binding.playerView.setVisibility(View.GONE);
+                        binding.tvNoVideoMessage.setVisibility(View.VISIBLE);
+                    }
+                    if (mBakingActivity != null && mBakingActivity.getSupportActionBar() != null) {
+                        // show title toolbar
+                        mBakingActivity.getSupportActionBar().show();
                     }
                 }
             }
@@ -173,7 +190,9 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putBoolean(EXO_PLAYER_PLAY_WHEN_READY, mPlayWhenReady);
         outState.putLong(EXO_PLAYER_POSITION, mPlayerPosition);
+        outState.putString(URL, mUrl);
         outState.putString(TITLE, mTitle);
     }
 
@@ -231,7 +250,7 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
             if (mPlayerPosition > 0) {
                 mExoPlayer.seekTo(mPlayerPosition);
             }
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(mPlayWhenReady);
         }
     }
 
@@ -244,8 +263,18 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
         mExoPlayer = null;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            if (!TextUtils.isEmpty(mUrl)) {
+                initializePlayer(Uri.parse(mUrl));
+            }
+        }
+    }
+
     /**
-     * Method to set up fragment
+     * Method to suspend fragment
      */
     @Override
     public void onPause() {
@@ -253,6 +282,9 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
         if (mExoPlayer != null) {
             mExoPlayer.setPlayWhenReady(false);
             mPlayerPosition = mExoPlayer.getCurrentPosition();
+        }
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
         }
     }
 
@@ -268,6 +300,22 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
             }
             mExoPlayer.setPlayWhenReady(true);
         }
+        if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
+            if (!TextUtils.isEmpty(mUrl)) {
+                initializePlayer(Uri.parse(mUrl));
+            }
+        }
+    }
+
+    /**
+     * Method to clean up exo player
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
     }
 
     /**
@@ -276,9 +324,6 @@ public class ExoPlayerFragment extends Fragment implements ExoPlayer.EventListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mExoPlayer != null) {
-            releasePlayer();
-        }
         mMediaSession.setActive(false);
         binding = null;
     }
